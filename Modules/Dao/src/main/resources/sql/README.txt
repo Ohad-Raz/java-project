@@ -1,6 +1,18 @@
-SQL scripts for the final project (setup phase).
+SQL scripts — NASA_IOTD (Exercise 07-08 style)
 
-- ddl_placeholder.sql — initialization DDL (2026JAVA01 Project Task). Pattern from Exercise 07-08 sqlScript.sql.
-- delete_all_data_placeholder.sql — delete-all-data script (Project Task). No equivalent in professor solutions; TODO when schema exists.
+Run order:
+  1. 01_init_database.sql
+  2. 02_delete_data.sql  (default: EXEC deleteAllData)
 
-Do not run these until final entities, tables, and stored procedures are defined.
+Passwords (AppUser):
+  - PasswordHash + PasswordSalt stored in SQL; hashing only in Java (PasswordUtils, PBKDF2WithHmacSHA256).
+  - Login: CALL selectUserByUsername → Java verifies password with salt.
+  - authenticateUser was removed (no password comparison in SQL).
+  - seedDefaultAdmin uses PBKDF2 hash/salt from PasswordUtils (admin password set at seed generation time).
+
+Delete procedures:
+  - deleteImportedData      — NasaImageTag + NasaImage only
+  - resetApplicationData    — + Tag wipe, then seedDefaultTags; AppUser preserved
+  - deleteAllData           — content wipe + seedDefaultTags + seedDefaultAdmin; AppUser preserved
+
+Database: NASA_IOTD

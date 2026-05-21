@@ -24,18 +24,25 @@ dist/
 nbdist/
 .nb-gradle/
 
-# Logs
+# Logs/temp
 *.log
+*.tmp
+*.bak
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Local secrets (use db.properties.example as template)
+# Local secrets/config
+.env
+*.local
 **/config/db.properties
 
-# Professor / course reference materials (kept locally, not in repo)
-Exercise0708_solution.txt
-Exercise0910_solution.txt
-Exercise1112_solution.txt
-2026JAVA01_Project_Task.pdf
+# Local course/professor references, kept for Cursor context only
+_course_reference/
+
+# Temporary feed testing
+_feed_probe/
+
+# Runtime downloaded images if generated at project root
+assets/
