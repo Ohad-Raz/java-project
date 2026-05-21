@@ -1,0 +1,5 @@
+# Copy to db.properties and set your SQL Server values (db.properties is gitignored).
+SERVER_NAME=localhost
+DATABASE_NAME=YOUR_DATABASE_NAME
+USER=your_username
+PASSWORD=your_password
