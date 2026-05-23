@@ -1,6 +1,6 @@
 /*
  * Project setup note:
- * Based on Exercise 07-08, RepositoryFactory properties-driven wiring pattern. Adapted for setup-phase StubRepository.
+ * Based on Exercise 07-08, RepositoryFactory properties-driven wiring pattern.
  */
 
 package hr.algebra.dal;
@@ -16,17 +16,17 @@ public final class RepositoryFactory {
     private static final String PATH = "/config/repository.properties";
     private static final String CLASS_NAME = "CLASS_NAME";
 
-    private static final Repository<?, ?> REPOSITORY;
+    private static final Repository REPOSITORY;
 
     static {
-        Repository<?, ?> loaded = null;
+        Repository loaded = null;
         try (InputStream is = RepositoryFactory.class.getResourceAsStream(PATH)) {
             if (is == null) {
                 throw new IllegalStateException("Missing resource: " + PATH);
             }
             PROPERTIES.load(is);
             String className = PROPERTIES.getProperty(CLASS_NAME);
-            loaded = (Repository<?, ?>) Class.forName(className)
+            loaded = (Repository) Class.forName(className)
                     .getDeclaredConstructor()
                     .newInstance();
         } catch (Exception ex) {
@@ -38,8 +38,7 @@ public final class RepositoryFactory {
     private RepositoryFactory() {
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T, K> Repository<T, K> getRepository() {
-        return (Repository<T, K>) REPOSITORY;
+    public static Repository getRepository() {
+        return REPOSITORY;
     }
 }

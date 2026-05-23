@@ -15,4 +15,10 @@ Delete procedures:
   - resetApplicationData    — + Tag wipe, then seedDefaultTags; AppUser preserved
   - deleteAllData           — content wipe + seedDefaultTags + seedDefaultAdmin; AppUser preserved
 
+Default tags (seedDefaultTags):
+  Mars, Moon, Webb, Earth, Artemis, Hubble, Orion, Space Station
+  (ISS removed — NASA IOTD feed uses "Space Station", not the acronym ISS)
+  After a full tag wipe, IDTag is reset to 1 (TRUNCATE in reset/deleteAll, or
+  DBCC CHECKIDENT in seedDefaultTags when Tag is empty).
+
 Database: NASA_IOTD

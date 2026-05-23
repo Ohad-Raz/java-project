@@ -1,6 +1,7 @@
 /*
  * Project setup note:
- * Based on Exercise 07-08, DataSourceSingleton and db.properties pattern. Placeholder credentials only.
+ * Based on Exercise 07-08, DataSourceSingleton and db.properties pattern.
+ * Optional PORT_NUMBER / ENCRYPT / TRUST_SERVER_CERTIFICATE for modern SQL Server (e.g. SSMS Encrypt=True).
  */
 
 package hr.algebra.dal.sql;
@@ -17,9 +18,12 @@ public final class DataSourceSingleton {
 
     private static final String PATH = "/config/db.properties";
     private static final String SERVER_NAME = "SERVER_NAME";
+    private static final String PORT_NUMBER = "PORT_NUMBER";
     private static final String DATABASE_NAME = "DATABASE_NAME";
     private static final String USER = "USER";
     private static final String PASSWORD = "PASSWORD";
+    private static final String ENCRYPT = "ENCRYPT";
+    private static final String TRUST_SERVER_CERTIFICATE = "TRUST_SERVER_CERTIFICATE";
 
     private static final Properties PROPERTIES = new Properties();
     private static DataSource instance;
@@ -48,9 +52,33 @@ public final class DataSourceSingleton {
     private static DataSource createInstance() {
         SQLServerDataSource dataSource = new SQLServerDataSource();
         dataSource.setServerName(PROPERTIES.getProperty(SERVER_NAME));
+        applyPortNumber(dataSource);
         dataSource.setDatabaseName(PROPERTIES.getProperty(DATABASE_NAME));
         dataSource.setUser(PROPERTIES.getProperty(USER));
         dataSource.setPassword(PROPERTIES.getProperty(PASSWORD));
+        applyEncrypt(dataSource);
+        applyTrustServerCertificate(dataSource);
         return dataSource;
+    }
+
+    private static void applyPortNumber(SQLServerDataSource dataSource) {
+        String port = PROPERTIES.getProperty(PORT_NUMBER);
+        if (port != null && !port.isBlank()) {
+            dataSource.setPortNumber(Integer.parseInt(port.trim()));
+        }
+    }
+
+    private static void applyEncrypt(SQLServerDataSource dataSource) {
+        String encrypt = PROPERTIES.getProperty(ENCRYPT);
+        if (encrypt != null && !encrypt.isBlank()) {
+            dataSource.setEncrypt(encrypt.trim());
+        }
+    }
+
+    private static void applyTrustServerCertificate(SQLServerDataSource dataSource) {
+        String trust = PROPERTIES.getProperty(TRUST_SERVER_CERTIFICATE);
+        if (trust != null && !trust.isBlank()) {
+            dataSource.setTrustServerCertificate(Boolean.parseBoolean(trust.trim()));
+        }
     }
 }

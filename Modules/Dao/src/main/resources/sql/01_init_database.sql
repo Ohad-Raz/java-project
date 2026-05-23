@@ -452,7 +452,7 @@ BEGIN
      */
     DELETE FROM NasaImageTag;
     DELETE FROM NasaImage;
-    DELETE FROM Tag;
+    TRUNCATE TABLE Tag; /* resets IDTag identity so seed starts at 1 */
 
     EXEC seedDefaultTags;
 END
@@ -471,7 +471,7 @@ BEGIN
      */
     DELETE FROM NasaImageTag;
     DELETE FROM NasaImage;
-    DELETE FROM Tag;
+    TRUNCATE TABLE Tag; /* resets IDTag identity so seed starts at 1 */
 
     EXEC seedDefaultTags;
     EXEC seedDefaultAdmin;
@@ -511,6 +511,15 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
+    /*
+     * If Tag is empty (e.g. manual DELETE), reset identity so new rows get IDTag 1, 2, 3...
+     * resetApplicationData / deleteAllData use TRUNCATE TABLE Tag for the same effect.
+     */
+    IF NOT EXISTS (SELECT 1 FROM Tag)
+    BEGIN
+        DBCC CHECKIDENT (N'Tag', RESEED, 0);
+    END
+
     DECLARE @Names TABLE (Name NVARCHAR(100));
     DECLARE @IDTag INT;
 
@@ -518,9 +527,11 @@ BEGIN
         (N'Mars'),
         (N'Moon'),
         (N'Webb'),
-        (N'ISS'),
         (N'Earth'),
-        (N'Artemis');
+        (N'Artemis'),
+        (N'Hubble'),
+        (N'Orion'),
+        (N'Space Station');
 
     DECLARE tag_cursor CURSOR LOCAL FAST_FORWARD FOR
         SELECT Name FROM @Names;

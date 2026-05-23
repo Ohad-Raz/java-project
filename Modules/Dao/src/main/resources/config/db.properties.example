@@ -1,5 +1,12 @@
-# Copy to db.properties and set your SQL Server values (db.properties is gitignored).
-SERVER_NAME=localhost
-DATABASE_NAME=YOUR_DATABASE_NAME
-USER=your_username
+# Copy to Modules/Dao/src/main/resources/config/db.properties (gitignored).
+# Professor Exercise 07-08: SERVER_NAME, DATABASE_NAME, USER, PASSWORD.
+# Add the optional lines below when your SQL Server uses explicit port / encryption (SSMS Encrypt=True).
+
+SERVER_NAME=OHADLAPTOP
+PORT_NUMBER=1433
+DATABASE_NAME=NASA_IOTD
+USER=user1
 PASSWORD=your_password
+
+ENCRYPT=true
+TRUST_SERVER_CERTIFICATE=true
