@@ -6,6 +6,8 @@
 package hr.algebra.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -13,6 +15,16 @@ public final class NasaImage implements Comparable<NasaImage> {
 
     /** Matches RSS {@code pubDate} storage (RFC 1123), e.g. Tue, 19 May 2026 17:08 GMT */
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.RFC_1123_DATE_TIME;
+
+    /** Formats {@link LocalDateTime} as RFC 1123 UTC (formatter requires offset). */
+    public static String formatPublishedDate(LocalDateTime publishedDate) {
+        return ZonedDateTime.of(publishedDate, ZoneOffset.UTC).format(DATE_FORMATTER);
+    }
+
+    /** Parses RFC 1123 text into {@link LocalDateTime} (UTC). */
+    public static LocalDateTime parsePublishedDate(String value) {
+        return ZonedDateTime.parse(value, DATE_FORMATTER).toLocalDateTime();
+    }
 
     private int id;
     private String title;

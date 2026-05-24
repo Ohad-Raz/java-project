@@ -15,9 +15,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -356,20 +353,12 @@ public class SqlRepository implements Repository {
         stmt.setString(LINK, image.getLink());
         stmt.setString(DESCRIPTION, image.getDescription());
         stmt.setString(PICTURE_PATH, image.getPicturePath());
-        stmt.setString(PUBLISHED_DATE, formatPublishedDate(image.getPublishedDate()));
+        stmt.setString(PUBLISHED_DATE, NasaImage.formatPublishedDate(image.getPublishedDate()));
         if (image.getGuid() == null) {
             stmt.setNull(GUID, Types.NVARCHAR);
         } else {
             stmt.setString(GUID, image.getGuid());
         }
-    }
-
-    private static String formatPublishedDate(LocalDateTime publishedDate) {
-        return ZonedDateTime.of(publishedDate, ZoneOffset.UTC).format(NasaImage.DATE_FORMATTER);
-    }
-
-    private static LocalDateTime parsePublishedDate(String value) {
-        return ZonedDateTime.parse(value, NasaImage.DATE_FORMATTER).toLocalDateTime();
     }
 
     private static AppUser mapAppUser(ResultSet rs) throws SQLException {
@@ -392,7 +381,7 @@ public class SqlRepository implements Repository {
                 rs.getString(LINK),
                 rs.getString(DESCRIPTION),
                 rs.getString(PICTURE_PATH),
-                parsePublishedDate(rs.getString(PUBLISHED_DATE)),
+                NasaImage.parsePublishedDate(rs.getString(PUBLISHED_DATE)),
                 rs.getString(GUID));
     }
 }
