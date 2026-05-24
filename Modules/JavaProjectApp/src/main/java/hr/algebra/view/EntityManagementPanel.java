@@ -11,6 +11,7 @@ import hr.algebra.utilities.FileUtils;
 import hr.algebra.utilities.IconUtils;
 import hr.algebra.utilities.MessageUtils;
 import hr.algebra.view.model.NasaImageTableModel;
+import hr.algebra.view.util.TableRenderUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -441,6 +442,12 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         tbNasaImages.setRowHeight(25);
         nasaImageTableModel = new NasaImageTableModel(repository.selectNasaImages());
         tbNasaImages.setModel(nasaImageTableModel);
+        configureTableAppearance();
+    }
+
+    /** Applies header/cell alignment and column widths after the model is bound. */
+    private void configureTableAppearance() {
+        TableRenderUtils.applyNasaImageTableStyle(tbNasaImages);
     }
 
     /** Reloads table rows from the repository (e.g. after Admin import). */

@@ -44,5 +44,8 @@ _course_reference/
 # Temporary feed testing
 _feed_probe/
 
-# Runtime downloaded images if generated at project root
-assets/
+# Runtime downloaded NASA images at project root only (not classpath resources)
+/assets/
+
+# Downloaded images under the app module when working directory was wrong
+Modules/JavaProjectApp/assets/

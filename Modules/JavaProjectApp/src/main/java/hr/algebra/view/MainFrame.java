@@ -24,6 +24,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.loggedInUser = loggedInUser;
         initComponents();
         setSize(1200, 780);
+        setLocationRelativeTo(null);
         postInitMenuBar();
         configureTabsForRole(loggedInUser.getRole());
     }
@@ -39,7 +40,8 @@ public class MainFrame extends javax.swing.JFrame {
             tpContent.addTab("Admin", new AdminPanel());
         }
         tpContent.addTab("User home", new UserHomePanel());
-        tpContent.addTab("Entities", new EntityManagementPanel());
+        tpContent.addTab("Images", new EntityManagementPanel());
+        tpContent.addTab("Tags", new TagManagementPanel());
         tpContent.addTab("Related", new RelatedEntitiesPanel());
         if (role == Role.ADMIN) {
             tpContent.addTab("XML export", new XmlExportPanel());

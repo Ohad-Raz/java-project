@@ -1,39 +1,72 @@
 /*
- * Project setup note:
- * Based on Exercise 11-12, JDialog form pattern (AuthorDialog reference). Placeholder until entity forms exist.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-
 package hr.algebra.view.dialog;
 
-import java.awt.BorderLayout;
 import java.awt.Frame;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
- * Dialog pattern placeholder (Exercise 11-12 AuthorDialog reference).
- * Final validation fields and entity binding will be added later.
+ * Sample dialog placeholder (Exercise 11-12 JDialog form pattern).
  */
-public final class PlaceholderDialog extends JDialog {
+public class PlaceholderDialog extends javax.swing.JDialog {
 
     public PlaceholderDialog(Frame owner) {
-        super(owner, "Placeholder dialog", true);
+        super(owner, true);
         initComponents();
+        setLocationRelativeTo(owner);
     }
 
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        setLayout(new BorderLayout(8, 8));
-        add(new JLabel("Dialog placeholder - entity form will be implemented later."), BorderLayout.CENTER);
 
-        JPanel actions = new JPanel();
-        JButton close = new JButton("Close");
-        close.addActionListener(e -> dispose());
-        actions.add(close);
-        add(actions, BorderLayout.SOUTH);
+        lblMessage = new javax.swing.JLabel();
+        btnClose = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Placeholder dialog");
+        setModal(true);
+
+        lblMessage.setText("Dialog placeholder - entity form will be implemented later.");
+
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblMessage)
+                .addGap(18, 18, 18)
+                .addComponent(btnClose)
+                .addContainerGap())
+        );
 
         pack();
-        setLocationRelativeTo(getOwner());
-    }
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
+    private javax.swing.JLabel lblMessage;
+    // End of variables declaration//GEN-END:variables
 }
