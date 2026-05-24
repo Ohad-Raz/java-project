@@ -40,7 +40,9 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
-                    <mainClass>${exec.mainClass}</mainClass>
+                    <mainClass>hr.algebra.Main</mainClass>
+                    <!-- Runtime assets/ lives at Java_Project root, not inside this module -->
+                    <workingDirectory>${project.basedir}/../..</workingDirectory>
                 </configuration>
             </plugin>
         </plugins>

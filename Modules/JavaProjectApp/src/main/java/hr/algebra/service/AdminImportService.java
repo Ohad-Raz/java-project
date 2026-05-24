@@ -66,6 +66,11 @@ public final class AdminImportService {
         return result;
     }
 
+    /** Clears imported NasaImage rows, tag links, and runtime asset files (admin maintenance). */
+    public void clearImportedData() throws Exception {
+        clearImportedDataAndAssets();
+    }
+
     /** Clears imported database rows and deletes files from the runtime assets directory. */
     private void clearImportedDataAndAssets() throws Exception {
         repository.deleteImportedData();

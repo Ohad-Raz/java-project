@@ -1,22 +1,40 @@
 /*
- * Project setup note:
- * Placeholder for final project. The final implementation will be completed after choosing the RSS source, domain entities, and database schema.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-
 package hr.algebra.view;
 
-import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 /**
- * Placeholder tab: User role home after login (2026JAVA01 Project Task).
- * Will host navigation to entity CRUD tabs (Exercise 07-08 EditArticlesPanel-style forms).
+ * User role home tab (placeholder until entity navigation is implemented).
  */
-public final class UserHomePanel extends JPanel {
+public class UserHomePanel extends javax.swing.JPanel {
 
     public UserHomePanel() {
-        setLayout(new BorderLayout());
-        add(new JLabel("User home panel placeholder"), BorderLayout.CENTER);
+        initComponents();
     }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        lblPlaceholder = new javax.swing.JLabel();
+
+        lblPlaceholder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPlaceholder.setText("User home panel placeholder");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPlaceholder, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblPlaceholder, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblPlaceholder;
+    // End of variables declaration//GEN-END:variables
 }

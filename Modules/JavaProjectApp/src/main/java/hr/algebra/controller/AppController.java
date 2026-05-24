@@ -5,7 +5,7 @@
 
 package hr.algebra.controller;
 
-import hr.algebra.view.MainFrame;
+import hr.algebra.view.LoginFrame;
 import hr.algebra.view.util.LookAndFeelUtils;
 
 /**
@@ -16,8 +16,9 @@ public final class AppController {
     private AppController() {
     }
 
+    /** Installs look-and-feel and opens the login screen before MainFrame. */
     public static void start() {
         LookAndFeelUtils.installDefaultLookAndFeel();
-        MainFrame.launch();
+        LoginFrame.launch();
     }
 }
