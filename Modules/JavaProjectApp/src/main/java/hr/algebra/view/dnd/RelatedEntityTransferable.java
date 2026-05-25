@@ -1,29 +1,29 @@
 /*
  * Project setup note:
- * Based on Exercise 11-12, Transferable/DataFlavor pattern (AuthorTransferable reference). Placeholder for related-entity DnD.
+ * Based on Exercise 11-12 AuthorTransferable. Adapted for Tag drag-and-drop.
  */
 
 package hr.algebra.view.dnd;
 
+import hr.algebra.model.Tag;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 /**
- * Transferable placeholder (Exercise 11-12 AuthorTransferable pattern).
- * Later: replace Object payload with final related-entity type and use in drag source.
+ * Transferable wrapper for {@link Tag} (Exercise 11-12 AuthorTransferable pattern).
  */
 public final class RelatedEntityTransferable implements Transferable {
 
-    public static final DataFlavor RELATED_ENTITY_FLAVOR = new DataFlavor(Object.class, "RelatedEntity");
+    public static final DataFlavor TAG_FLAVOR = new DataFlavor(Tag.class, "Tag");
 
-    private static final DataFlavor[] SUPPORTED_FLAVORS = {RELATED_ENTITY_FLAVOR};
+    private static final DataFlavor[] SUPPORTED_FLAVORS = {TAG_FLAVOR};
 
-    private final Object relatedEntity;
+    private final Tag tag;
 
-    public RelatedEntityTransferable(Object relatedEntity) {
-        this.relatedEntity = relatedEntity;
+    public RelatedEntityTransferable(Tag tag) {
+        this.tag = tag;
     }
 
     @Override
@@ -33,13 +33,13 @@ public final class RelatedEntityTransferable implements Transferable {
 
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return RELATED_ENTITY_FLAVOR.equals(flavor);
+        return TAG_FLAVOR.equals(flavor);
     }
 
     @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         if (isDataFlavorSupported(flavor)) {
-            return relatedEntity;
+            return tag;
         }
         throw new UnsupportedFlavorException(flavor);
     }

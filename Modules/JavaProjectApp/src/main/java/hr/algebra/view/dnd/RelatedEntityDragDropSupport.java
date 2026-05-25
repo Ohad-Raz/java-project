@@ -1,14 +1,15 @@
 /*
  * Project setup note:
- * Based on Exercise 11-12, TransferHandler drag-and-drop pattern. Placeholder wiring for related entities.
+ * Based on Exercise 11-12 TransferHandler drag-and-drop pattern. Adapted for Tag lists.
  */
 
 package hr.algebra.view.dnd;
 
-import java.awt.datatransfer.DataFlavor;
+import hr.algebra.model.Tag;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,8 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
 
 /**
- * Reusable drag-and-drop skeleton (Exercise 11-12 DragNDrop + AuthorTransferable).
- * Later: assign a related entity from source list to main entity on destination drop.
+ * Wires Available Tags to Assigned Tags drag-and-drop (Exercise 11-12 pattern).
  */
 public final class RelatedEntityDragDropSupport {
 
@@ -29,24 +29,26 @@ public final class RelatedEntityDragDropSupport {
     private RelatedEntityDragDropSupport() {
     }
 
-    public static void wireListToList(
-            JList<Object> sourceList,
-            JList<Object> destinationList,
-            Consumer<Object> onRelatedEntityAssigned
+    /** Enables drag from source and drop on destination; invokes callback when a tag is dropped. */
+    public static void wireTagLists(
+            JList<Tag> sourceList,
+            JList<Tag> destinationList,
+            BooleanSupplier canImport,
+            Consumer<Tag> onTagDropped
     ) {
         sourceList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         sourceList.setDragEnabled(true);
         sourceList.setTransferHandler(new ExportTransferHandler(sourceList));
 
         destinationList.setDropMode(DropMode.ON);
-        destinationList.setTransferHandler(new ImportTransferHandler(onRelatedEntityAssigned));
+        destinationList.setTransferHandler(new ImportTransferHandler(canImport, onTagDropped));
     }
 
     private static final class ExportTransferHandler extends TransferHandler {
 
-        private final JList<Object> sourceList;
+        private final JList<Tag> sourceList;
 
-        private ExportTransferHandler(JList<Object> sourceList) {
+        private ExportTransferHandler(JList<Tag> sourceList) {
             this.sourceList = sourceList;
         }
 
@@ -57,7 +59,7 @@ public final class RelatedEntityDragDropSupport {
 
         @Override
         protected Transferable createTransferable(JComponent c) {
-            Object selected = sourceList.getSelectedValue();
+            Tag selected = sourceList.getSelectedValue();
             if (selected == null) {
                 return null;
             }
@@ -67,25 +69,30 @@ public final class RelatedEntityDragDropSupport {
 
     private static final class ImportTransferHandler extends TransferHandler {
 
-        private final Consumer<Object> onRelatedEntityAssigned;
+        private final BooleanSupplier canImport;
+        private final Consumer<Tag> onTagDropped;
 
-        private ImportTransferHandler(Consumer<Object> onRelatedEntityAssigned) {
-            this.onRelatedEntityAssigned = onRelatedEntityAssigned;
+        private ImportTransferHandler(BooleanSupplier canImport, Consumer<Tag> onTagDropped) {
+            this.canImport = canImport;
+            this.onTagDropped = onTagDropped;
         }
 
         @Override
         public boolean canImport(TransferSupport support) {
-            return support.isDataFlavorSupported(RelatedEntityTransferable.RELATED_ENTITY_FLAVOR);
+            return support.isDataFlavorSupported(RelatedEntityTransferable.TAG_FLAVOR);
         }
 
         @Override
         public boolean importData(TransferSupport support) {
+            if (!canImport.getAsBoolean()) {
+                return false;
+            }
             Transferable transferable = support.getTransferable();
             try {
-                Object data = transferable.getTransferData(RelatedEntityTransferable.RELATED_ENTITY_FLAVOR);
-                onRelatedEntityAssigned.accept(data);
+                Tag tag = (Tag) transferable.getTransferData(RelatedEntityTransferable.TAG_FLAVOR);
+                onTagDropped.accept(tag);
                 return true;
-            } catch (UnsupportedFlavorException | IOException ex) {
+            } catch (UnsupportedFlavorException | IOException | ClassCastException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
                 return false;
             }

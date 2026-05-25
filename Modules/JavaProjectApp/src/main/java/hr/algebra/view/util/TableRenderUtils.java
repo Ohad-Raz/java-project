@@ -36,6 +36,22 @@ public final class TableRenderUtils {
         columnModel.getColumn(1).setPreferredWidth(400);
     }
 
+    /** Centers headers; Id/date centered; Title left-aligned for Related tab image table. */
+    public static void applyRelatedNasaImageTableStyle(JTable table) {
+        centerTableHeaders(table);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+        leftRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+
+        TableColumnModel columnModel = table.getColumnModel();
+        setColumn(columnModel.getColumn(0), centerRenderer, 80, 100);
+        setColumn(columnModel.getColumn(1), leftRenderer, 220, 400);
+        setColumn(columnModel.getColumn(2), centerRenderer, 160, 220);
+    }
+
     /** Centers headers; Id/date centered; text columns left-aligned with readable widths. */
     public static void applyNasaImageTableStyle(JTable table) {
         centerTableHeaders(table);
