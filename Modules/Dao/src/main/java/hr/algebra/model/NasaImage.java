@@ -33,7 +33,7 @@ public final class NasaImage implements Comparable<NasaImage> {
     private String picturePath;
     private LocalDateTime publishedDate;
     private String guid;
-
+//default constructor for xml
     public NasaImage() {
     }
 

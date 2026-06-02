@@ -33,6 +33,11 @@ public interface Repository {
 
     List<NasaImage> selectNasaImages() throws Exception;
 
+    /** Reuses the existing image selection operation for a lightweight presence check. */
+    default boolean hasNasaImages() throws Exception {
+        return !selectNasaImages().isEmpty();
+    }
+
     int createTag(Tag tag) throws Exception;
 
     void updateTag(int id, Tag tag) throws Exception;

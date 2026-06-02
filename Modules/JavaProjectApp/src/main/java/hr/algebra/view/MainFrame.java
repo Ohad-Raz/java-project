@@ -7,7 +7,6 @@ package hr.algebra.view;
 import hr.algebra.model.AppUser;
 import hr.algebra.model.Role;
 import hr.algebra.utilities.MessageUtils;
-import hr.algebra.view.dialog.PlaceholderDialog;
 import hr.algebra.view.util.LookAndFeelUtils;
 import java.awt.EventQueue;
 
@@ -74,7 +73,6 @@ public class MainFrame extends javax.swing.JFrame {
         menuLookAndFeel = new javax.swing.JMenu();
         menuHelp = new javax.swing.JMenu();
         miAbout = new javax.swing.JMenuItem();
-        miSampleDialog = new javax.swing.JMenuItem();
         tpContent = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -111,14 +109,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
         menuHelp.add(miAbout);
 
-        miSampleDialog.setText("Sample dialog");
-        miSampleDialog.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miSampleDialogActionPerformed(evt);
-            }
-        });
-        menuHelp.add(miSampleDialog);
-
         mainMenuBar.add(menuFile);
         mainMenuBar.add(menuView);
         mainMenuBar.add(menuHelp);
@@ -145,13 +135,19 @@ public class MainFrame extends javax.swing.JFrame {
     private void miAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAboutActionPerformed
         MessageUtils.showInformationMessage(
                 TITLE,
-                "Logged in as: " + loggedInUser.getUsername() + " (" + loggedInUser.getRole() + ")"
+                """
+                NASA Image of the Day Manager
+                
+                Logged in as: %s (%s)
+                
+                Features:
+                - Admin import and clear workflow
+                - Images and Tags CRUD
+                - Drag and Drop image-tag linking
+                - JAXB XML export
+                """.formatted(loggedInUser.getUsername(), loggedInUser.getRole())
         );
     }//GEN-LAST:event_miAboutActionPerformed
-
-    private void miSampleDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSampleDialogActionPerformed
-        new PlaceholderDialog(this).setVisible(true);
-    }//GEN-LAST:event_miSampleDialogActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         dispatchExit();
@@ -165,7 +161,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu menuView;
     private javax.swing.JMenuItem miAbout;
     private javax.swing.JMenuItem miExit;
-    private javax.swing.JMenuItem miSampleDialog;
     private javax.swing.JTabbedPane tpContent;
     // End of variables declaration//GEN-END:variables
 }

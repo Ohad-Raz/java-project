@@ -7,6 +7,7 @@ package hr.algebra.view;
 import hr.algebra.dal.Repository;
 import hr.algebra.dal.RepositoryFactory;
 import hr.algebra.model.NasaImage;
+import hr.algebra.model.Tag;
 import hr.algebra.utilities.FileUtils;
 import hr.algebra.utilities.IconUtils;
 import hr.algebra.utilities.MessageUtils;
@@ -23,8 +24,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -34,11 +37,13 @@ public class EntityManagementPanel extends javax.swing.JPanel {
 
     private static final String DIR = "assets";
     private static final String RESOURCES_ASSETS = "src/main/resources/assets";
+    private static final Tag ALL_TAGS_FILTER = new Tag(0, "All tags");
 
     private Map<JTextComponent, JLabel> validationMap;
 
     private Repository repository;
     private NasaImageTableModel nasaImageTableModel;
+    private DefaultComboBoxModel<Tag> tagFilterModel;
 
     private NasaImage selectedImage;
 
@@ -66,6 +71,10 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         tfPublishedDate = new javax.swing.JTextField();
         lbPublishedDateError = new javax.swing.JLabel();
+        lblTagFilter = new javax.swing.JLabel();
+        cbTagFilter = new javax.swing.JComboBox<>();
+        lblMaxRows = new javax.swing.JLabel();
+        spMaxRows = new javax.swing.JSpinner();
         tfPicturePath = new javax.swing.JTextField();
         btnChooseImage = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
@@ -131,6 +140,24 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         lbPublishedDateError.setForeground(new java.awt.Color(204, 0, 0));
         lbPublishedDateError.setText("X");
 
+        lblTagFilter.setText("Filter by tag");
+
+        cbTagFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new Tag[] { ALL_TAGS_FILTER }));
+        cbTagFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTagFilterActionPerformed(evt);
+            }
+        });
+
+        lblMaxRows.setText("Max rows");
+
+        spMaxRows.setModel(new javax.swing.SpinnerNumberModel(100, 1, 500, 10));
+        spMaxRows.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spMaxRowsStateChanged(evt);
+            }
+        });
+
         tfPicturePath.setEditable(false);
 
         btnChooseImage.setText("Choose");
@@ -181,6 +208,14 @@ public class EntityManagementPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(9, 9, 9)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblTagFilter)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cbTagFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lblMaxRows)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(spMaxRows, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -226,6 +261,12 @@ public class EntityManagementPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTagFilter)
+                            .addComponent(cbTagFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMaxRows)
+                            .addComponent(spMaxRows, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -284,7 +325,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
                     UUID.randomUUID().toString()
             );
             repository.createNasaImage(image);
-            nasaImageTableModel.setImages(repository.selectNasaImages());
+            refreshTable();
             clearForm();
         } catch (Exception ex) {
             Logger.getLogger(EntityManagementPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -314,7 +355,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
                     NasaImage.parsePublishedDate(tfPublishedDate.getText().trim()));
 
             repository.updateNasaImage(selectedImage.getId(), selectedImage);
-            nasaImageTableModel.setImages(repository.selectNasaImages());
+            refreshTable();
             clearForm();
         } catch (Exception ex) {
             Logger.getLogger(EntityManagementPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -333,7 +374,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
             try {
                 deleteRuntimePictureFile(selectedImage.getPicturePath());
                 repository.deleteNasaImage(selectedImage.getId());
-                nasaImageTableModel.setImages(repository.selectNasaImages());
+                refreshTable();
                 clearForm();
             } catch (Exception ex) {
                 Logger.getLogger(EntityManagementPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -365,6 +406,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
             if (repository == null) {
                 init();
             } else {
+                loadTagFilter();
                 refreshTable();
             }
         } catch (Exception ex) {
@@ -373,11 +415,36 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_formComponentShown
 
+    private void cbTagFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTagFilterActionPerformed
+        if (repository == null || nasaImageTableModel == null) {
+            return;
+        }
+        try {
+            refreshTable();
+        } catch (Exception ex) {
+            Logger.getLogger(EntityManagementPanel.class.getName()).log(Level.SEVERE, null, ex);
+            MessageUtils.showErrorMessage("Error", "Unable to apply image filter.");
+        }
+    }//GEN-LAST:event_cbTagFilterActionPerformed
+
+    private void spMaxRowsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spMaxRowsStateChanged
+        if (repository == null || nasaImageTableModel == null) {
+            return;
+        }
+        try {
+            refreshTable();
+        } catch (Exception ex) {
+            Logger.getLogger(EntityManagementPanel.class.getName()).log(Level.SEVERE, null, ex);
+            MessageUtils.showErrorMessage("Error", "Unable to apply row limit.");
+        }
+    }//GEN-LAST:event_spMaxRowsStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnChooseImage;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<Tag> cbTagFilter;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -390,6 +457,9 @@ public class EntityManagementPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lbPicturePathError;
     private javax.swing.JLabel lbPublishedDateError;
     private javax.swing.JLabel lbTitleError;
+    private javax.swing.JLabel lblMaxRows;
+    private javax.swing.JLabel lblTagFilter;
+    private javax.swing.JSpinner spMaxRows;
     private javax.swing.JTextArea taDescription;
     private javax.swing.JTable tbNasaImages;
     private javax.swing.JTextField tfLink;
@@ -408,6 +478,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
             hideErrors();
             initRepository();
             initTable();
+            loadTagFilter();
         } catch (Exception ex) {
             Logger.getLogger(EntityManagementPanel.class.getName()).log(Level.SEVERE, null, ex);
             MessageUtils.showErrorMessage("Unrecoverable error", "Cannot initiate the form");
@@ -452,7 +523,46 @@ public class EntityManagementPanel extends javax.swing.JPanel {
 
     /** Reloads table rows from the repository (e.g. after Admin import). */
     private void refreshTable() throws Exception {
-        nasaImageTableModel.setImages(repository.selectNasaImages());
+        int maxRows = getMaxRowsLimit();
+        Tag selectedFilter = (Tag) cbTagFilter.getSelectedItem();
+        java.util.List<NasaImage> images;
+        if (selectedFilter == null || selectedFilter.getId() == ALL_TAGS_FILTER.getId()) {
+            images = repository.selectNasaImages();
+        } else {
+            images = repository.selectNasaImagesForTag(selectedFilter.getId());
+        }
+        nasaImageTableModel.setImages(images.stream().limit(maxRows).toList());
+    }
+
+    /** Reads the current spinner value and returns a safe positive row limit. */
+    private int getMaxRowsLimit() {
+        Object value = spMaxRows.getValue();
+        if (value instanceof Number number) {
+            return Math.max(1, number.intValue());
+        }
+        return 100;
+    }
+
+    /** Loads available tags into a typed combo model for table filtering. */
+    private void loadTagFilter() throws Exception {
+        Tag current = (Tag) cbTagFilter.getSelectedItem();
+        tagFilterModel = new DefaultComboBoxModel<>();
+        tagFilterModel.addElement(ALL_TAGS_FILTER);
+        for (Tag tag : repository.selectTags()) {
+            tagFilterModel.addElement(tag);
+        }
+        cbTagFilter.setModel(tagFilterModel);
+
+        if (current != null) {
+            for (int i = 0; i < tagFilterModel.getSize(); i++) {
+                Tag candidate = tagFilterModel.getElementAt(i);
+                if (candidate.getId() == current.getId()) {
+                    cbTagFilter.setSelectedIndex(i);
+                    return;
+                }
+            }
+        }
+        cbTagFilter.setSelectedItem(ALL_TAGS_FILTER);
     }
 
     /** Validates required fields and RFC 1123 published date before save. */

@@ -83,14 +83,6 @@
               <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miAboutActionPerformed"/>
             </Events>
           </MenuItem>
-          <MenuItem class="javax.swing.JMenuItem" name="miSampleDialog">
-            <Properties>
-              <Property name="text" type="java.lang.String" value="Sample dialog"/>
-            </Properties>
-            <Events>
-              <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miSampleDialogActionPerformed"/>
-            </Events>
-          </MenuItem>
         </SubComponents>
       </Menu>
     </SubComponents>

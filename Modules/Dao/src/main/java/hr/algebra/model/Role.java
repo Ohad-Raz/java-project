@@ -1,6 +1,6 @@
 /*
  * Project setup note:
- * Placeholder for final project. Role values match AppUser.Role CHECK in SQL (ADMIN, USER).
+ * Final project role enum. Values match AppUser.Role CHECK in SQL (ADMIN, USER).
  */
 
 package hr.algebra.model;

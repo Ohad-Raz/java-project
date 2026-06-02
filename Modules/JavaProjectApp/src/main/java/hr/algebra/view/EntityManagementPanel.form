@@ -33,6 +33,15 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel2" min="-2" pref="84" max="-2" attributes="0"/>
                                   <Component id="jLabel4" alignment="0" min="-2" pref="84" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="lblTagFilter" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="cbTagFilter" min="-2" pref="250" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lblMaxRows" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="spMaxRows" min="-2" pref="90" max="-2" attributes="0"/>
+                                  </Group>
                                   <Component id="tfTitle" alignment="0" min="-2" pref="604" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -94,6 +103,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblTagFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbTagFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblMaxRows" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="spMaxRows" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -257,6 +273,38 @@
         </Property>
         <Property name="text" type="java.lang.String" value="X"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblTagFilter">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Filter by tag"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbTagFilter">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="1">
+            <StringItem index="0" value="All tags"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbTagFilterActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblMaxRows">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Max rows"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="spMaxRows">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="100" maximum="500" minimum="1" numberType="java.lang.Integer" stepSize="10" type="number"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="spMaxRowsStateChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfPicturePath">
       <Properties>

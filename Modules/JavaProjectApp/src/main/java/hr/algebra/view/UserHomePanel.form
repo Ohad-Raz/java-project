@@ -16,21 +16,83 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="lblPlaceholder" alignment="0" pref="400" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="lblDescription" alignment="0" pref="789" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lblCurrentUserCaption" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblCurrentUserValue" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="lblTitle" alignment="0" pref="789" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="lblPlaceholder" alignment="0" pref="200" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblTitle" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblDescription" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblCurrentUserCaption" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblCurrentUserValue" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="434" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblPlaceholder">
+    <Component class="javax.swing.JLabel" name="lblTitle">
       <Properties>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="User home panel placeholder"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="18" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="NASA Image of the Day Manager"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.JLabel" name="lblDescription">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Swing application for NASA RSS import, image/tag management, and JAXB XML export."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblCurrentUserCaption">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Current user:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblCurrentUserValue">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="(not available)"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="taGuide">
+          <Properties>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="lineWrap" type="boolean" value="true"/>
+            <Property name="rows" type="int" value="5"/>
+            <Property name="text" type="java.lang.String" value="Guide:&#xa;- Admin: import or clear NASA RSS data.&#xa;- Images: manage NASA image records (CRUD).&#xa;- Tags: manage tag vocabulary (CRUD).&#xa;- Related: assign tags to images with Drag and Drop.&#xa;- XML export: export images with assigned tags."/>
+            <Property name="wrapStyleWord" type="boolean" value="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
   </SubComponents>
 </Form>
