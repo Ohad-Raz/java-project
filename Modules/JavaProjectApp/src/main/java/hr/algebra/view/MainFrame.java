@@ -22,8 +22,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame(AppUser loggedInUser) {
         this.loggedInUser = loggedInUser;
         initComponents();
-        setSize(1200, 780);
-        setLocationRelativeTo(null);
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         postInitMenuBar();
         configureTabsForRole(loggedInUser.getRole());
     }
