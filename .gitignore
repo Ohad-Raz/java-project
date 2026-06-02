@@ -49,3 +49,6 @@ _feed_probe/
 
 # Downloaded images under the app module when working directory was wrong
 Modules/JavaProjectApp/assets/
+
+# Local agent continuity notes
+PROJECT_HANDOFF.md
