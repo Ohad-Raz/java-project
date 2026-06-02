@@ -31,7 +31,7 @@
                           <Component id="jScrollPaneAvailable" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnRefresh" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblAssignedTags" alignment="0" max="32767" attributes="0"/>
                           <Component id="jScrollPaneAssigned" alignment="0" max="32767" attributes="0"/>
@@ -47,25 +47,26 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblSelectImage" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPaneImages" alignment="0" min="-2" pref="140" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblSelectedImage" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblSelectImage" min="-2" max="-2" attributes="0"/>
-                  <Component id="jScrollPaneImages" alignment="0" min="-2" pref="140" max="32767" attributes="0"/>
-                  <Component id="lblSelectedImage" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="lblAvailableTags" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPaneAvailable" alignment="0" min="-2" pref="160" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnRefresh" min="-2" pref="33" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="lblAssignedTags" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPaneAssigned" alignment="0" min="-2" pref="160" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnRemove" min="-2" pref="33" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="lblAvailableTags" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPaneAvailable" alignment="0" min="-2" pref="160" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnRefresh" min="-2" pref="33" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Component id="lblAssignedTags" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPaneAssigned" alignment="0" min="-2" pref="160" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnRemove" min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -89,11 +90,10 @@
         <Component class="javax.swing.JTable" name="tbImages">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
-                <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                <Column editable="true" title="Title 4" type="java.lang.Object"/>
+              <Table columnCount="3" rowCount="4">
+                <Column editable="true" title="Id" type="java.lang.Object"/>
+                <Column editable="true" title="Title" type="java.lang.Object"/>
+                <Column editable="true" title="Published date" type="java.lang.Object"/>
               </Table>
             </Property>
           </Properties>
@@ -112,11 +112,6 @@
     <Component class="javax.swing.JLabel" name="lblAvailableTags">
       <Properties>
         <Property name="text" type="java.lang.String" value="Available Tags"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblAssignedTags">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Assigned Tags"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPaneAvailable">
@@ -138,6 +133,19 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="btnRefresh">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Refresh"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRefreshActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblAssignedTags">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Assigned Tags"/>
+      </Properties>
+    </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPaneAssigned">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -157,14 +165,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnRefresh">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Refresh"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRefreshActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="btnRemove">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remove selected assigned tag"/>

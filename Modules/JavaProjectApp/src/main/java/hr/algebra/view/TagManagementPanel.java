@@ -42,8 +42,6 @@ public class TagManagementPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbTags = new javax.swing.JTable();
         lblName = new javax.swing.JLabel();
         tfName = new javax.swing.JTextField();
         lbNameError = new javax.swing.JLabel();
@@ -52,6 +50,8 @@ public class TagManagementPanel extends javax.swing.JPanel {
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbTags = new javax.swing.JTable();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -61,13 +61,13 @@ public class TagManagementPanel extends javax.swing.JPanel {
 
         tbTags.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Name"
             }
         ));
         tbTags.addMouseListener(new java.awt.event.MouseAdapter() {
