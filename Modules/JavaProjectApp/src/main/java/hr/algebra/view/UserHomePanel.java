@@ -20,12 +20,15 @@ public class UserHomePanel extends javax.swing.JPanel {
     public UserHomePanel() {
         initComponents();
         showCurrentUser();
-        lblBanner.addComponentListener(new ComponentAdapter() {
+        lblBanner.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        ComponentAdapter resizeHandler = new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent evt) {
                 loadBannerImage();
             }
-        });
+        };
+        lblBanner.addComponentListener(resizeHandler);
+        addComponentListener(resizeHandler);
         loadBannerImage();
     }
 

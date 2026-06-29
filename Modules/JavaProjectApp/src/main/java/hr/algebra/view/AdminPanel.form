@@ -20,14 +20,13 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnImport" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnClear" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblWorking" alignment="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="btnImport" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="lblNasaLogo" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnClear" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lblWorking" alignment="0" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="lblNasaBanner" alignment="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -42,8 +41,9 @@
                   <Component id="btnImport" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnClear" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblWorking" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblNasaLogo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace type="related" max="-2" attributes="0"/>
+              <Component id="lblNasaBanner" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
               <EmptySpace type="related" max="-2" attributes="0"/>
               <Component id="jScrollPane1" alignment="0" min="-2" pref="300" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -73,9 +73,9 @@
         <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblNasaLogo">
+    <Component class="javax.swing.JLabel" name="lblNasaBanner">
       <Properties>
-        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>

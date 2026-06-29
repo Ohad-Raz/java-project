@@ -1,11 +1,11 @@
 /*
  * Classpath image loading for Swing panels (JavaProjectApp module-local).
- * Avoids depending on Utilities rebuild for banner/logo helpers at runtime.
  */
 
 package hr.algebra.view.util;
 
-import java.awt.Image;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,7 @@ public final class ClasspathImageUtils {
     private ClasspathImageUtils() {
     }
 
-    /** Loads and scales a classpath image onto a label; uses text fallback on failure. */
+    /** Loads and stretches a classpath image to the label size; uses text fallback on failure. */
     public static void setLabelIconFromResource(
             JLabel label,
             Class<?> anchor,
@@ -29,7 +29,7 @@ public final class ClasspathImageUtils {
         int targetWidth = width > 0 ? width : 64;
         int targetHeight = height > 0 ? height : 64;
         try {
-            label.setIcon(loadScaledIcon(anchor, resourcePath, targetWidth, targetHeight));
+            label.setIcon(loadFittedIcon(anchor, resourcePath, targetWidth, targetHeight));
             label.setText("");
         } catch (IOException ex) {
             label.setIcon(null);
@@ -37,20 +37,22 @@ public final class ClasspathImageUtils {
         }
     }
 
-    public static ImageIcon loadScaledIcon(Class<?> anchor, String resourcePath, int width, int height)
+    private static ImageIcon loadFittedIcon(Class<?> anchor, String resourcePath, int width, int height)
             throws IOException {
         try (InputStream inputStream = anchor.getResourceAsStream(resourcePath)) {
             if (inputStream == null) {
                 throw new IOException("Missing classpath resource: " + resourcePath);
             }
-            BufferedImage bufferedImage = ImageIO.read(inputStream);
-            if (bufferedImage == null) {
+            BufferedImage source = ImageIO.read(inputStream);
+            if (source == null) {
                 throw new IOException("Unreadable image resource: " + resourcePath);
             }
-            int targetWidth = width > 0 ? width : bufferedImage.getWidth();
-            int targetHeight = height > 0 ? height : bufferedImage.getHeight();
-            Image image = bufferedImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
-            return new ImageIcon(image);
+            BufferedImage fitted = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphics = fitted.createGraphics();
+            graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            graphics.drawImage(source, 0, 0, width, height, null);
+            graphics.dispose();
+            return new ImageIcon(fitted);
         }
     }
 }
