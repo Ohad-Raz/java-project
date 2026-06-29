@@ -23,6 +23,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lblSelectImage" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lblRelatedTagFilter" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="cbRelatedTagFilter" max="32767" attributes="0"/>
+                  </Group>
                   <Component id="jScrollPaneImages" alignment="0" max="32767" attributes="0"/>
                   <Component id="lblSelectedImage" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
@@ -48,6 +53,11 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblSelectImage" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblRelatedTagFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbRelatedTagFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPaneImages" alignment="0" min="-2" pref="140" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -79,6 +89,19 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Select NASA Image"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblRelatedTagFilter">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Filter by tag"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cbRelatedTagFilter">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbRelatedTagFilterActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Tag&gt;"/>
+      </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPaneImages">
       <AuxValues>

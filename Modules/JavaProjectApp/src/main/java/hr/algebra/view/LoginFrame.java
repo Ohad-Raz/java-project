@@ -25,6 +25,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     public LoginFrame() {
         initComponents();
+        getRootPane().setDefaultButton(btnLogin);
     }
 
     @SuppressWarnings("unchecked")

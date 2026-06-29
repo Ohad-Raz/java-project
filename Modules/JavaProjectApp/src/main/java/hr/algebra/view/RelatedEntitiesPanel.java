@@ -19,6 +19,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -29,9 +30,11 @@ import javax.swing.event.ListSelectionEvent;
 public class RelatedEntitiesPanel extends javax.swing.JPanel {
 
     private static final String TITLE = "Related";
+    private static final Tag ALL_TAGS_FILTER = new Tag(0, "All tags");
 
     private Repository repository;
     private RelatedNasaImageTableModel imageTableModel;
+    private DefaultComboBoxModel<Tag> relatedTagFilterModel;
 
     private List<Tag> allTags = new ArrayList<>();
     private NasaImage selectedImage;
@@ -48,6 +51,8 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         lblSelectImage = new javax.swing.JLabel();
+        lblRelatedTagFilter = new javax.swing.JLabel();
+        cbRelatedTagFilter = new javax.swing.JComboBox<>();
         jScrollPaneImages = new javax.swing.JScrollPane();
         tbImages = new javax.swing.JTable();
         lblSelectedImage = new javax.swing.JLabel();
@@ -67,6 +72,14 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         });
 
         lblSelectImage.setText("Select NASA Image");
+
+        lblRelatedTagFilter.setText("Filter by tag");
+
+        cbRelatedTagFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbRelatedTagFilterActionPerformed(evt);
+            }
+        });
 
         tbImages.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,6 +136,10 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblSelectImage)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblRelatedTagFilter)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbRelatedTagFilter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPaneImages)
                     .addComponent(lblSelectedImage)
                     .addGroup(layout.createSequentialGroup()
@@ -142,6 +159,10 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblSelectImage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRelatedTagFilter)
+                    .addComponent(cbRelatedTagFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPaneImages, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -163,6 +184,13 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbRelatedTagFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRelatedTagFilterActionPerformed
+        if (repository == null || imageTableModel == null) {
+            return;
+        }
+        applyTagFilter();
+    }//GEN-LAST:event_cbRelatedTagFilterActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         refreshAll();
@@ -196,11 +224,13 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRemove;
+    private javax.swing.JComboBox<Tag> cbRelatedTagFilter;
     private javax.swing.JScrollPane jScrollPaneAssigned;
     private javax.swing.JScrollPane jScrollPaneAvailable;
     private javax.swing.JScrollPane jScrollPaneImages;
     private javax.swing.JLabel lblAssignedTags;
     private javax.swing.JLabel lblAvailableTags;
+    private javax.swing.JLabel lblRelatedTagFilter;
     private javax.swing.JLabel lblSelectImage;
     private javax.swing.JLabel lblSelectedImage;
     private javax.swing.JList<Tag> lstAssignedTags;
@@ -259,15 +289,69 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
     /** Reloads images, all tags, and tag lists for the current selection. */
     private void refreshAll() {
         try {
-            int selectedImageId = selectedImage != null ? selectedImage.getId() : -1;
-            imageTableModel.setImages(repository.selectNasaImages());
             allTags = repository.selectTags();
-            reselectImageRow(selectedImageId);
-            reloadTagListsForSelectedImage();
+            loadTagFilter();
+            refreshImageTable();
         } catch (Exception ex) {
             Logger.getLogger(RelatedEntitiesPanel.class.getName()).log(Level.SEVERE, null, ex);
             MessageUtils.showErrorMessage("Error", "Unable to refresh related data!");
         }
+    }
+
+    /** Loads tag filter options from the repository. */
+    private void loadTagFilter() throws Exception {
+        Tag current = (Tag) cbRelatedTagFilter.getSelectedItem();
+        relatedTagFilterModel = new DefaultComboBoxModel<>();
+        relatedTagFilterModel.addElement(ALL_TAGS_FILTER);
+        for (Tag tag : repository.selectTags()) {
+            relatedTagFilterModel.addElement(tag);
+        }
+        cbRelatedTagFilter.setModel(relatedTagFilterModel);
+
+        if (current != null) {
+            for (int i = 0; i < relatedTagFilterModel.getSize(); i++) {
+                Tag candidate = relatedTagFilterModel.getElementAt(i);
+                if (candidate.getId() == current.getId()) {
+                    cbRelatedTagFilter.setSelectedIndex(i);
+                    return;
+                }
+            }
+        }
+        cbRelatedTagFilter.setSelectedItem(ALL_TAGS_FILTER);
+    }
+
+    /** Applies the selected tag filter to the NASA image table. */
+    private void applyTagFilter() {
+        try {
+            refreshImageTable();
+        } catch (Exception ex) {
+            Logger.getLogger(RelatedEntitiesPanel.class.getName()).log(Level.SEVERE, null, ex);
+            MessageUtils.showErrorMessage("Error", "Unable to apply image filter.");
+        }
+    }
+
+    /** Reloads image rows according to the current tag filter. */
+    private void refreshImageTable() throws Exception {
+        Tag selectedFilter = (Tag) cbRelatedTagFilter.getSelectedItem();
+        List<NasaImage> images;
+        if (selectedFilter == null || selectedFilter.getId() == ALL_TAGS_FILTER.getId()) {
+            images = repository.selectNasaImages();
+        } else {
+            images = repository.selectNasaImagesForTag(selectedFilter.getId());
+        }
+
+        int selectedImageId = selectedImage != null ? selectedImage.getId() : -1;
+        imageTableModel.setImages(images);
+
+        if (selectedImageId >= 0 && images.stream().noneMatch(image -> image.getId() == selectedImageId)) {
+            selectedImage = null;
+            tbImages.clearSelection();
+            updateSelectedImageLabel();
+            clearTagLists();
+            return;
+        }
+
+        reselectImageRow(selectedImageId);
     }
 
     /** Re-selects the image row after a table refresh when possible. */

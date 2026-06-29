@@ -408,6 +408,8 @@ public class EntityManagementPanel extends javax.swing.JPanel {
             } else {
                 loadTagFilter();
                 refreshTable();
+                tbNasaImages.clearSelection();
+                clearForm();
             }
         } catch (Exception ex) {
             Logger.getLogger(EntityManagementPanel.class.getName()).log(Level.SEVERE, null, ex);

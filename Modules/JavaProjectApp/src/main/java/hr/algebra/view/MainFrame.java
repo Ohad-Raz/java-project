@@ -8,6 +8,7 @@ import hr.algebra.model.AppUser;
 import hr.algebra.model.Role;
 import hr.algebra.utilities.MessageUtils;
 import hr.algebra.view.util.LookAndFeelUtils;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 /**
@@ -16,12 +17,15 @@ import java.awt.EventQueue;
 public class MainFrame extends javax.swing.JFrame {
 
     private static final String TITLE = "NASA Image of the Day";
+    private static final Dimension NORMAL_SIZE = new Dimension(1200, 780);
 
     private final AppUser loggedInUser;
 
     public MainFrame(AppUser loggedInUser) {
         this.loggedInUser = loggedInUser;
         initComponents();
+        setMinimumSize(NORMAL_SIZE);
+        setSize(NORMAL_SIZE);
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         postInitMenuBar();
         configureTabsForRole(loggedInUser.getRole());
