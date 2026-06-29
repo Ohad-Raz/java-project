@@ -8,8 +8,17 @@ import hr.algebra.model.AppUser;
 import hr.algebra.model.Role;
 import hr.algebra.utilities.MessageUtils;
 import hr.algebra.view.util.LookAndFeelUtils;
+import hr.algebra.view.util.ClasspathImageUtils;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Frame;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * JFrame host with menu bar and tabbed panels (Exercise 07-08 ArticleManager pattern).
@@ -17,18 +26,71 @@ import java.awt.EventQueue;
 public class MainFrame extends javax.swing.JFrame {
 
     private static final String TITLE = "NASA Image of the Day";
-    private static final Dimension NORMAL_SIZE = new Dimension(1200, 780);
+    private static final String NASA_LOGO_RESOURCE = "/assets/nasa_logo.png";
+    private static final int NASA_HEADER_LOGO_SIZE = 48;
+    private static final int TARGET_NORMAL_WIDTH = 1500;
+    private static final int TARGET_NORMAL_HEIGHT = 975;
+    private static final int SCREEN_MARGIN = 80;
 
     private final AppUser loggedInUser;
+    private final Dimension normalSize;
 
     public MainFrame(AppUser loggedInUser) {
         this.loggedInUser = loggedInUser;
+        this.normalSize = computeNormalSize();
         initComponents();
-        setMinimumSize(NORMAL_SIZE);
-        setSize(NORMAL_SIZE);
+        configureHeaderLogo();
+        configureRestoredWindowBehavior();
+        setMinimumSize(normalSize);
+        setSize(normalSize);
+        setLocationRelativeTo(null);
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         postInitMenuBar();
         configureTabsForRole(loggedInUser.getRole());
+    }
+
+    /** Caps the preferred restored size to the current screen working area. */
+    private static Dimension computeNormalSize() {
+        Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        int width = Math.min(TARGET_NORMAL_WIDTH, Math.max(800, bounds.width - SCREEN_MARGIN));
+        int height = Math.min(TARGET_NORMAL_HEIGHT, Math.max(600, bounds.height - SCREEN_MARGIN));
+        return new Dimension(width, height);
+    }
+
+    /** Adds a small NASA logo above the tabbed content without changing role-based tabs. */
+    private void configureHeaderLogo() {
+        getContentPane().removeAll();
+        JPanel header = new JPanel(new BorderLayout());
+        header.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 8));
+        JLabel lblLogo = new JLabel();
+        lblLogo.setHorizontalAlignment(SwingConstants.RIGHT);
+        ClasspathImageUtils.setLabelIconFromResource(
+                lblLogo,
+                MainFrame.class,
+                NASA_LOGO_RESOURCE,
+                NASA_HEADER_LOGO_SIZE,
+                NASA_HEADER_LOGO_SIZE,
+                "");
+        header.add(lblLogo, BorderLayout.EAST);
+
+        JPanel body = new JPanel(new BorderLayout());
+        body.add(header, BorderLayout.NORTH);
+        body.add(tpContent, BorderLayout.CENTER);
+
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(body, BorderLayout.CENTER);
+    }
+
+    /** Restores a large centered window when leaving maximized state. */
+    private void configureRestoredWindowBehavior() {
+        addWindowStateListener(event -> {
+            boolean wasMaximized = (event.getOldState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
+            boolean isNormal = (event.getNewState() & Frame.NORMAL) == Frame.NORMAL;
+            if (wasMaximized && isNormal) {
+                setSize(normalSize);
+                setLocationRelativeTo(null);
+            }
+        });
     }
 
     /** Fills the Look and Feel submenu at runtime (dynamic menu items). */

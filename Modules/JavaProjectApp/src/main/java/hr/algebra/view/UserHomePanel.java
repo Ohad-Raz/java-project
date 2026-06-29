@@ -6,12 +6,9 @@ package hr.algebra.view;
 
 import hr.algebra.controller.AppSession;
 import hr.algebra.model.AppUser;
-import hr.algebra.utilities.IconUtils;
+import hr.algebra.view.util.ClasspathImageUtils;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * User role home tab with a quick guide for final-project features.
@@ -118,13 +115,13 @@ public class UserHomePanel extends javax.swing.JPanel {
             width = 640;
             height = 280;
         }
-        try {
-            lblBanner.setIcon(IconUtils.createIconFromResource(getClass(), BANNER_RESOURCE, width, height));
-            lblBanner.setText("");
-        } catch (IOException ex) {
-            Logger.getLogger(UserHomePanel.class.getName()).log(Level.WARNING, "Unable to load home banner image.", ex);
-            lblBanner.setText("NASA Image of the Day Manager");
-        }
+        ClasspathImageUtils.setLabelIconFromResource(
+                lblBanner,
+                UserHomePanel.class,
+                BANNER_RESOURCE,
+                width,
+                height,
+                "NASA Image of the Day Manager");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
