@@ -6,30 +6,15 @@ package hr.algebra.view;
 
 import hr.algebra.controller.AppSession;
 import hr.algebra.model.AppUser;
-import hr.algebra.view.util.ClasspathImageUtils;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * User role home tab with a quick guide for final-project features.
  */
 public class UserHomePanel extends javax.swing.JPanel {
 
-    private static final String BANNER_RESOURCE = "/assets/home_nasa.png";
-
     public UserHomePanel() {
         initComponents();
         showCurrentUser();
-        lblBanner.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
-        ComponentAdapter resizeHandler = new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent evt) {
-                loadBannerImage();
-            }
-        };
-        lblBanner.addComponentListener(resizeHandler);
-        addComponentListener(resizeHandler);
-        loadBannerImage();
     }
 
     @SuppressWarnings("unchecked")
@@ -42,7 +27,6 @@ public class UserHomePanel extends javax.swing.JPanel {
         lblCurrentUserValue = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taGuide = new javax.swing.JTextArea();
-        lblBanner = new javax.swing.JLabel();
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTitle.setText("NASA Image of the Day Manager");
@@ -61,9 +45,6 @@ public class UserHomePanel extends javax.swing.JPanel {
         taGuide.setWrapStyleWord(true);
         jScrollPane1.setViewportView(taGuide);
 
-        lblBanner.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblBanner.setText(" ");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,14 +52,13 @@ public class UserHomePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
                     .addComponent(lblDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblCurrentUserCaption)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblCurrentUserValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(lblBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -93,9 +73,7 @@ public class UserHomePanel extends javax.swing.JPanel {
                     .addComponent(lblCurrentUserCaption)
                     .addComponent(lblCurrentUserValue))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblBanner, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -110,26 +88,8 @@ public class UserHomePanel extends javax.swing.JPanel {
         lblCurrentUserValue.setText(user.getUsername() + " (" + user.getRole() + ")");
     }
 
-    /** Scales and shows the NASA home banner from classpath resources. */
-    private void loadBannerImage() {
-        int width = lblBanner.getWidth();
-        int height = lblBanner.getHeight();
-        if (width <= 0 || height <= 0) {
-            width = 640;
-            height = 280;
-        }
-        ClasspathImageUtils.setLabelIconFromResource(
-                lblBanner,
-                UserHomePanel.class,
-                BANNER_RESOURCE,
-                width,
-                height,
-                "NASA Image of the Day Manager");
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblBanner;
     private javax.swing.JLabel lblCurrentUserCaption;
     private javax.swing.JLabel lblCurrentUserValue;
     private javax.swing.JLabel lblDescription;

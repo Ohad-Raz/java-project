@@ -7,9 +7,6 @@ package hr.algebra.view;
 import hr.algebra.service.AdminImportResult;
 import hr.algebra.service.AdminImportService;
 import hr.algebra.utilities.MessageUtils;
-import hr.algebra.view.util.ClasspathImageUtils;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import javax.swing.SwingWorker;
 
 /**
@@ -18,19 +15,11 @@ import javax.swing.SwingWorker;
 public class AdminPanel extends javax.swing.JPanel {
 
     private static final String TITLE = "Admin";
-    private static final String NASA_BANNER_RESOURCE = "/assets/home_nasa.png";
 
     private final AdminImportService importService = new AdminImportService();
 
     public AdminPanel() {
         initComponents();
-        lblNasaBanner.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent evt) {
-                loadNasaBanner();
-            }
-        });
-        loadNasaBanner();
     }
 
     @SuppressWarnings("unchecked")
@@ -40,7 +29,6 @@ public class AdminPanel extends javax.swing.JPanel {
         btnImport = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         lblWorking = new javax.swing.JLabel();
-        lblNasaBanner = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taStatus = new javax.swing.JTextArea();
 
@@ -59,9 +47,6 @@ public class AdminPanel extends javax.swing.JPanel {
         });
 
         lblWorking.setText(" ");
-
-        lblNasaBanner.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNasaBanner.setText(" ");
 
         taStatus.setColumns(60);
         taStatus.setEditable(false);
@@ -84,7 +69,6 @@ public class AdminPanel extends javax.swing.JPanel {
                         .addComponent(btnClear)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblWorking, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(lblNasaBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -96,8 +80,6 @@ public class AdminPanel extends javax.swing.JPanel {
                     .addComponent(btnImport)
                     .addComponent(btnClear)
                     .addComponent(lblWorking))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNasaBanner, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                 .addContainerGap())
@@ -206,28 +188,10 @@ public class AdminPanel extends javax.swing.JPanel {
         taStatus.setCaretPosition(0);
     }
 
-    /** Stretches the NASA banner to the available label area. */
-    private void loadNasaBanner() {
-        int width = lblNasaBanner.getWidth();
-        int height = lblNasaBanner.getHeight();
-        if (width <= 0 || height <= 0) {
-            width = 480;
-            height = 140;
-        }
-        ClasspathImageUtils.setLabelIconFromResource(
-                lblNasaBanner,
-                AdminPanel.class,
-                NASA_BANNER_RESOURCE,
-                width,
-                height,
-                "NASA");
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnImport;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblNasaBanner;
     private javax.swing.JLabel lblWorking;
     private javax.swing.JTextArea taStatus;
     // End of variables declaration//GEN-END:variables
