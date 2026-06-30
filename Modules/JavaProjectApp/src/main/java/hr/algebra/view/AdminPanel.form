@@ -86,7 +86,7 @@
             </Property>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="12"/>
-            <Property name="text" type="java.lang.String" value="Ready.&#xa;Import downloads RSS images and saves them through stored procedures."/>
+            <Property name="text" type="java.lang.String" value="Ready.&#xa;Use Import to load the NASA RSS feed, download images, and save them to the database."/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
           </Properties>
         </Component>

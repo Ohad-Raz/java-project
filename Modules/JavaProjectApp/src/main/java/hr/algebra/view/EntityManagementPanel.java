@@ -115,16 +115,19 @@ public class EntityManagementPanel extends javax.swing.JPanel {
 
         lbTitleError.setForeground(new java.awt.Color(204, 0, 0));
         lbTitleError.setText("X");
+        lbTitleError.setVisible(false);
 
         jLabel4.setText("Link");
 
         lbLinkError.setForeground(new java.awt.Color(204, 0, 0));
         lbLinkError.setText("X");
+        lbLinkError.setVisible(false);
 
         jLabel6.setText("Description");
 
         lbDescriptionError.setForeground(new java.awt.Color(204, 0, 0));
         lbDescriptionError.setText("X");
+        lbDescriptionError.setVisible(false);
 
         taDescription.setColumns(20);
         taDescription.setLineWrap(true);
@@ -137,6 +140,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
 
         lbPublishedDateError.setForeground(new java.awt.Color(204, 0, 0));
         lbPublishedDateError.setText("X");
+        lbPublishedDateError.setVisible(false);
 
         lblTagFilter.setText("Filter by tag");
 
@@ -190,6 +194,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
 
         lbPicturePathError.setForeground(new java.awt.Color(204, 0, 0));
         lbPicturePathError.setText("X");
+        lbPicturePathError.setVisible(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -215,14 +220,16 @@ public class EntityManagementPanel extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(spMaxRows, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(tfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lbTitleError, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(lbTitleError, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createSequentialGroup()
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                 .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -382,13 +389,23 @@ public class EntityManagementPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseImageActionPerformed
-        Optional<File> optFile = FileUtils.uploadFile("Images", "jpg", "jpeg", "png");
+        Optional<File> optFile = FileUtils.uploadFile(
+                IconUtils.SUPPORTED_IMAGE_DESCRIPTION,
+                IconUtils.PNG,
+                IconUtils.JPG,
+                IconUtils.JPEG,
+                IconUtils.GIF);
         if (optFile.isEmpty()) {
             return;
         }
         File file = optFile.get();
-        tfPicturePath.setText(file.getAbsolutePath());
-        setIcon(lbIcon, file);
+        try {
+            lbIcon.setIcon(IconUtils.createIcon(file, lbIcon.getWidth(), lbIcon.getHeight()));
+            lbIcon.setText("");
+            tfPicturePath.setText(file.getAbsolutePath());
+        } catch (IOException ex) {
+            MessageUtils.showErrorMessage("Error", ex.getMessage());// catch thrown exception if image is not supported(wasnt in exercise 07-08)
+        }
     }//GEN-LAST:event_btnChooseImageActionPerformed
 
     private void tbNasaImagesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbNasaImagesMouseClicked
@@ -646,8 +663,8 @@ public class EntityManagementPanel extends javax.swing.JPanel {
             label.setIcon(IconUtils.createIcon(file, label.getWidth(), label.getHeight()));
             label.setText("");
         } catch (IOException ex) {
-            Logger.getLogger(EntityManagementPanel.class.getName()).log(Level.SEVERE, null, ex);
-            MessageUtils.showErrorMessage("Error", "Unable to set icon!");
+            Logger.getLogger(EntityManagementPanel.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            MessageUtils.showErrorMessage("Error", ex.getMessage());
         }
     }
 

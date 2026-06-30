@@ -51,7 +51,7 @@ public class AdminPanel extends javax.swing.JPanel {
         taStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         taStatus.setLineWrap(true);
         taStatus.setRows(12);
-        taStatus.setText("Ready.\nImport downloads RSS images and saves them through stored procedures.");
+        taStatus.setText("Ready.\nUse Import to load the NASA RSS feed, download images, and save them to the database.");
         taStatus.setWrapStyleWord(true);
         jScrollPane1.setViewportView(taStatus);
 
