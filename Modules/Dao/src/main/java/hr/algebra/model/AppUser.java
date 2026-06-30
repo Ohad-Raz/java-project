@@ -1,12 +1,8 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08 entity pattern (Article). Adapted for AppUser and salted password storage.
- */
-
 package hr.algebra.model;
 
 import java.util.Objects;
 
+// User entity with hash/salt/role (Exercise 07-08 entity style).
 public final class AppUser {
 
     private int id;

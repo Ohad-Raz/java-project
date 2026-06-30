@@ -9,9 +9,7 @@ import hr.algebra.service.AdminImportService;
 import hr.algebra.utilities.MessageUtils;
 import javax.swing.SwingWorker;
 
-/**
- * Administrator tab: NASA RSS import (Exercise 07-08 upload + Exercise 09-10 background work).
- */
+// Admin tab for NASA RSS import and clear (07-08 upload + 09-10 SwingWorker).
 public class AdminPanel extends javax.swing.JPanel {
 
     private static final String TITLE = "Admin";
@@ -48,11 +46,12 @@ public class AdminPanel extends javax.swing.JPanel {
 
         lblWorking.setText(" ");
 
-        taStatus.setColumns(60);
         taStatus.setEditable(false);
+        taStatus.setColumns(60);
+        taStatus.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         taStatus.setLineWrap(true);
         taStatus.setRows(12);
-        taStatus.setText("Ready. Import downloads RSS images and saves them through stored procedures.");
+        taStatus.setText("Ready.\nImport downloads RSS images and saves them through stored procedures.");
         taStatus.setWrapStyleWord(true);
         jScrollPane1.setViewportView(taStatus);
 
@@ -81,7 +80,7 @@ public class AdminPanel extends javax.swing.JPanel {
                     .addComponent(btnClear)
                     .addComponent(lblWorking))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -102,7 +101,7 @@ public class AdminPanel extends javax.swing.JPanel {
         clearImportedDataInBackground();
     }//GEN-LAST:event_btnClearActionPerformed
 
-    /** Starts NASA RSS import on a background thread so the GUI stays responsive. */
+    // Starts NASA RSS import in SwingWorker so the GUI stays responsive.
     private void runImportInBackground(boolean clearExistingFirst) {
         setAdminControlsEnabled(false);
         lblWorking.setText("Import running...");
@@ -130,7 +129,7 @@ public class AdminPanel extends javax.swing.JPanel {
         }.execute();
     }
 
-    /** Clears imported data in the background without blocking the EDT. */
+    // Clears imported data in SwingWorker.
     private void clearImportedDataInBackground() {
         setAdminControlsEnabled(false);
         lblWorking.setText("Clearing...");
@@ -157,13 +156,13 @@ public class AdminPanel extends javax.swing.JPanel {
         }.execute();
     }
 
-    /** Disables import buttons while background work is running. */
+    // Disables import buttons while background work runs.
     private void setAdminControlsEnabled(boolean enabled) {
         btnImport.setEnabled(enabled);
         btnClear.setEnabled(enabled);
     }
 
-    /** Updates the status area with import results. */
+    // Updates the status area with import counters.
     private void showImportResult(AdminImportResult result) {
         String message = """
                 Import finished.
@@ -182,7 +181,7 @@ public class AdminPanel extends javax.swing.JPanel {
         MessageUtils.showInformationMessage(TITLE, "NASA import completed.");
     }
 
-    /** Sets the status text shown in the admin panel. */
+    // Appends one line to the admin status area.
     private void updateStatusMessage(String message) {
         taStatus.setText(message);
         taStatus.setCaretPosition(0);

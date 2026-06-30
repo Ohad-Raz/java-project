@@ -20,9 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
 import javax.swing.text.JTextComponent;
 
-/**
- * Tag CRUD tab (Exercise 07-08 EditArticlesPanel pattern, simplified for Tag).
- */
+// Tag CRUD tab (Exercise 07-08 EditArticlesPanel pattern, simplified for Tag).
 public class TagManagementPanel extends javax.swing.JPanel {
 
     private static final String TITLE = "Tags";
@@ -269,7 +267,7 @@ public class TagManagementPanel extends javax.swing.JPanel {
     private javax.swing.JTextField tfName;
     // End of variables declaration//GEN-END:variables
 
-    /** Initializes validation, repository, and table when the tab is first shown. */
+    // Initializes validation, repository, and table when the tab is first shown.
     private void init() throws Exception {
         initValidation();
         hideErrors();
@@ -277,23 +275,23 @@ public class TagManagementPanel extends javax.swing.JPanel {
         initTable();
     }
 
-    /** Wires the name field to its validation error label. */
+    // Pairs the name field with its validation label.
     private void initValidation() {
         validationMap = new LinkedHashMap<>();
         validationMap.put(tfName, lbNameError);
     }
 
-    /** Hides all validation error markers. */
+    // Hides all validation error markers.
     private void hideErrors() {
         validationMap.values().forEach(label -> label.setVisible(false));
     }
 
-    /** Obtains the shared repository from the factory. */
+    // Obtains the shared repository from the factory.
     private void initRepository() throws Exception {
         repository = RepositoryFactory.getRepository();
     }
 
-    /** Binds the table to {@link TagTableModel} and loads tags from the database. */
+    // Binds the table to TagTableModel and loads tags from the database.
     private void initTable() throws Exception {
         tbTags.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tbTags.setAutoCreateRowSorter(true);
@@ -303,17 +301,17 @@ public class TagManagementPanel extends javax.swing.JPanel {
         configureTableAppearance();
     }
 
-    /** Applies centered headers/cells and column widths after the model is bound. */
+    // Applies centered headers/cells and column widths after the model is bound.
     private void configureTableAppearance() {
         TableRenderUtils.applyTagTableStyle(tbTags);
     }
 
-    /** Reloads tag rows from the database into the table. */
+    // Reloads tag rows from the database into the table.
     private void refreshTable() throws Exception {
         tagTableModel.setTags(repository.selectTags());
     }
 
-    /** Validates that the tag name is not empty. */
+    // Validates that the tag name is not empty.
     private boolean formValid() {
         hideErrors();
         boolean ok = true;
@@ -328,14 +326,14 @@ public class TagManagementPanel extends javax.swing.JPanel {
         return ok;
     }
 
-    /** Clears the edit form and current selection state. */
+    // Clears the edit form and current selection state.
     private void clearForm() {
         hideErrors();
         validationMap.keySet().forEach(field -> field.setText(""));
         selectedTag = null;
     }
 
-    /** Loads the selected table row into the edit form. */
+    // Loads the selected table row into the edit form.
     private void showTag() {
         int selectedRow = tbTags.getSelectedRow();
         if (selectedRow < 0) {
@@ -360,12 +358,12 @@ public class TagManagementPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Populates the form from the selected {@link Tag}. */
+    // Populates the form from the selected Tag.
     private void fillForm(Tag tag) {
         tfName.setText(tag.getName());
     }
 
-    /** Shows a friendly message for duplicate tag names or a generic persistence error. */
+    // Shows a friendly message for duplicate tag names or a generic persistence error.
     private void handlePersistenceError(Exception ex, String action) {
         if (isDuplicateNameError(ex)) {
             MessageUtils.showErrorMessage("Error", "A tag with this name already exists.");
@@ -375,7 +373,7 @@ public class TagManagementPanel extends javax.swing.JPanel {
         MessageUtils.showErrorMessage("Error", "Unable to " + action + " tag!");
     }
 
-    /** Detects SQL Server unique-key violations on Tag.Name. */
+    // Detects SQL Server unique-key violations on Tag.Name.
     private boolean isDuplicateNameError(Exception ex) {
         Throwable cause = ex;
         while (cause != null) {

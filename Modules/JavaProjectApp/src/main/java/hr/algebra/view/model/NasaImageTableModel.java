@@ -1,17 +1,10 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08 ArticleTableModel. Adapted for NasaImage CRUD table.
- */
-
 package hr.algebra.view.model;
 
 import hr.algebra.model.NasaImage;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-/**
- * Table model for NASA image list (Exercise 07-08 ArticleTableModel pattern).
- */
+// NasaImage table model for the Images tab (Exercise 07-08 ArticleTableModel pattern).
 public final class NasaImageTableModel extends AbstractTableModel {
 
     private static final String[] COLUMN_NAMES = {

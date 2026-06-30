@@ -7,9 +7,7 @@ package hr.algebra.view;
 import hr.algebra.controller.AppSession;
 import hr.algebra.model.AppUser;
 
-/**
- * User role home tab with a quick guide for final-project features.
- */
+// User home tab with a short feature guide.
 public class UserHomePanel extends javax.swing.JPanel {
 
     public UserHomePanel() {
@@ -31,14 +29,15 @@ public class UserHomePanel extends javax.swing.JPanel {
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblTitle.setText("NASA Image of the Day Manager");
 
-        lblDescription.setText("Swing application for NASA RSS import, image/tag management, and JAXB XML export.");
+        lblDescription.setText("application for NASA RSS import, image/tag management, and XML export.");
 
         lblCurrentUserCaption.setText("Current user:");
 
         lblCurrentUserValue.setText("(not available)");
 
-        taGuide.setColumns(20);
         taGuide.setEditable(false);
+        taGuide.setColumns(20);
+        taGuide.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         taGuide.setLineWrap(true);
         taGuide.setRows(5);
         taGuide.setText("Guide:\n- Admin: import or clear NASA RSS data.\n- Images: manage NASA image records (CRUD).\n- Tags: manage tag vocabulary (CRUD).\n- Related: assign tags to images with Drag and Drop.\n- XML export: export images with assigned tags.");
@@ -52,13 +51,13 @@ public class UserHomePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
-                    .addComponent(lblDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addComponent(lblDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblCurrentUserCaption)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblCurrentUserValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -78,7 +77,7 @@ public class UserHomePanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    /** Displays the authenticated user and role from the current application session. */
+    // Shows the logged-in username and role from AppSession.
     private void showCurrentUser() {
         AppUser user = AppSession.getCurrentUser();
         if (user == null) {

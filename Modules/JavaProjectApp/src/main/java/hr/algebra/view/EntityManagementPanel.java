@@ -30,9 +30,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.JTextComponent;
 
-/**
- * NASA image CRUD tab (Exercise 07-08 EditArticlesPanel pattern).
- */
+// NASA image CRUD tab (Exercise 07-08 EditArticlesPanel pattern).
 public class EntityManagementPanel extends javax.swing.JPanel {
 
     private static final String DIR = "assets";
@@ -470,7 +468,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
     private javax.swing.JTextField tfTitle;
     // End of variables declaration//GEN-END:variables
 
-    /** Loads validation map, repository, and table when the tab is first shown. */
+    // Loads validation map, repository, and table when the tab is first shown.
     private void init() {
         if (repository != null) {
             return;
@@ -488,7 +486,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Wires each input field to its validation error label (stable field order). */
+    // Pairs each input field with its validation label.
     private void initValidation() {
         validationMap = new LinkedHashMap<>();
         validationMap.put(tfTitle, lbTitleError);
@@ -498,17 +496,17 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         validationMap.put(tfPicturePath, lbPicturePathError);
     }
 
-    /** Hides all validation error markers. */
+    // Hides all validation error markers.
     private void hideErrors() {
         validationMap.values().forEach(label -> label.setVisible(false));
     }
 
-    /** Obtains the shared repository from the factory. */
+    // Obtains the shared repository from the factory.
     private void initRepository() throws Exception {
         repository = RepositoryFactory.getRepository();
     }
 
-    /** Binds the table to {@link NasaImageTableModel} and loads all images. */
+    // Binds the table to NasaImageTableModel and loads all images.
     private void initTable() throws Exception {
         tbNasaImages.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tbNasaImages.setAutoCreateRowSorter(true);
@@ -518,12 +516,12 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         configureTableAppearance();
     }
 
-    /** Applies header/cell alignment and column widths after the model is bound. */
+    // Applies header/cell alignment and column widths after the model is bound.
     private void configureTableAppearance() {
         TableRenderUtils.applyNasaImageTableStyle(tbNasaImages);
     }
 
-    /** Reloads table rows from the repository (e.g. after Admin import). */
+    // Reloads table rows from the repository (e.g. after Admin import).
     private void refreshTable() throws Exception {
         int maxRows = getMaxRowsLimit();
         Tag selectedFilter = (Tag) cbTagFilter.getSelectedItem();
@@ -536,7 +534,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         nasaImageTableModel.setImages(images.stream().limit(maxRows).toList());
     }
 
-    /** Reads the current spinner value and returns a safe positive row limit. */
+    // Reads the current spinner value and returns a safe positive row limit.
     private int getMaxRowsLimit() {
         Object value = spMaxRows.getValue();
         if (value instanceof Number number) {
@@ -545,7 +543,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         return 100;
     }
 
-    /** Loads available tags into a typed combo model for table filtering. */
+    // Loads available tags into a typed combo model for table filtering.
     private void loadTagFilter() throws Exception {
         Tag current = (Tag) cbTagFilter.getSelectedItem();
         tagFilterModel = new DefaultComboBoxModel<>();
@@ -567,7 +565,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         cbTagFilter.setSelectedItem(ALL_TAGS_FILTER);
     }
 
-    /** Validates required fields and RFC 1123 published date before save. */
+    // Validates required fields and RFC 1123 published date before save.
     private boolean formValid() {
         hideErrors();
         boolean ok = true;
@@ -590,7 +588,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         return ok;
     }
 
-    /** Clears the edit form and preview after add/update/delete. */
+    // Clears the edit form and preview after add/update/delete.
     private void clearForm() {
         hideErrors();
         validationMap.keySet().forEach(field -> field.setText(""));
@@ -598,7 +596,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         selectedImage = null;
     }
 
-    /** Copies the chosen file into runtime {@code assets/} and returns the relative path. */
+    // Copies the chosen file into runtime assets/ and returns the relative path.
     private String uploadPicture() throws IOException {
         String picturePath = tfPicturePath.getText();
         String ext = picturePath.substring(picturePath.lastIndexOf('.'));
@@ -608,7 +606,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         return localPicturePath;
     }
 
-    /** Loads the selected table row into the edit form. */
+    // Loads the selected table row into the edit form.
     private void showNasaImage() {
         int selectedRow = tbNasaImages.getSelectedRow();
         if (selectedRow < 0) {
@@ -630,7 +628,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Populates text fields and preview from a {@link NasaImage}. */
+    // Populates text fields and preview from the selected NasaImage.
     private void fillForm(NasaImage image) {
         if (image.getPicturePath() != null && Files.exists(Paths.get(image.getPicturePath()))) {
             tfPicturePath.setText(image.getPicturePath());
@@ -642,7 +640,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         tfPublishedDate.setText(NasaImage.formatPublishedDate(image.getPublishedDate()));
     }
 
-    /** Scales and shows the image on the preview label. */
+    // Scales and shows the image on the preview label.
     private void setIcon(JLabel label, File file) {
         try {
             label.setIcon(IconUtils.createIcon(file, label.getWidth(), label.getHeight()));
@@ -653,13 +651,13 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Restores the default placeholder preview image. */
+    // Restores the default placeholder preview image.
     private void resetIcon() {
         lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/no_image.png")));
         lbIcon.setText("");
     }
 
-    /** Deletes a runtime asset file only (never under {@code src/main/resources/assets}). */
+    // Deletes a runtime asset file only; never touches src/main/resources/assets.
     private void deleteRuntimePictureFile(String picturePath) throws IOException {
         if (picturePath == null || picturePath.isBlank()) {
             return;

@@ -1,9 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08, DataSourceSingleton and db.properties pattern.
- * Optional PORT_NUMBER / ENCRYPT / TRUST_SERVER_CERTIFICATE for modern SQL Server (e.g. SSMS Encrypt=True).
- */
-
 package hr.algebra.dal.sql;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
@@ -14,6 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 
+// SQL Server DataSource from db.properties (Exercise 07-08 pattern).
+// Optional PORT_NUMBER, ENCRYPT, and TRUST_SERVER_CERTIFICATE are supported.
 public final class DataSourceSingleton {
 
     private static final String PATH = "/config/db.properties";

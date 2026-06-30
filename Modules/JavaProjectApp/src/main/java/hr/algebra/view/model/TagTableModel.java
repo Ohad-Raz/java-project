@@ -1,17 +1,10 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08 ArticleTableModel. Adapted for Tag CRUD table.
- */
-
 package hr.algebra.view.model;
 
 import hr.algebra.model.Tag;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-/**
- * Table model for tag list (Exercise 07-08 ArticleTableModel pattern).
- */
+// Tag table model for the Tags tab (Exercise 07-08 ArticleTableModel pattern).
 public final class TagTableModel extends AbstractTableModel {
 
     private static final String[] COLUMN_NAMES = {"Id", "Name"};

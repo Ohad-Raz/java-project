@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08, FileUtils (upload, copy, copyFromUrl) utility pattern. Adapted for the final Java Programming 1 project.
- */
-
 package hr.algebra.utilities;
 
 import hr.algebra.factory.UrlConnectionFactory;
@@ -16,16 +11,13 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+// File copy helpers, including download from URL (Exercise 07-08 FileUtils pattern).
 public final class FileUtils {
 
     private static final String UPLOAD = "Upload";
-    private static final String SAVE = "Save";
-    private static final String TEXT_DOCUMENTS = "Text documents (*.txt)";
-    private static final String TXT = "txt";
 
     private FileUtils() {
     }
@@ -65,50 +57,5 @@ public final class FileUtils {
         if (!Files.exists(Paths.get(dir))) {
             Files.createDirectories(Paths.get(dir));
         }
-    }
-
-    public static boolean filenameHasExtension(String filename, int length) {
-        return filename.contains(".") && filename.substring(filename.lastIndexOf('.') + 1).length() == length;
-    }
-
-    public static Optional<File> saveTextInFile(String text, Optional<File> optFile) throws IOException {
-        Optional<File> file = optFile;
-        if (file.isEmpty()) {
-            JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            chooser.setFileFilter(new FileNameExtensionFilter(TEXT_DOCUMENTS, TXT));
-            chooser.setDialogTitle(SAVE);
-            chooser.setApproveButtonText(SAVE);
-            chooser.setApproveButtonToolTipText(SAVE);
-            if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = chooser.getSelectedFile();
-                if (!selectedFile.toString().endsWith(TXT)) {
-                    selectedFile = new File(selectedFile.toString().concat(".").concat(TXT));
-                }
-                Files.write(selectedFile.toPath(), text.getBytes());
-                file = Optional.of(selectedFile);
-            }
-        } else {
-            Files.write(file.get().toPath(), text.getBytes());
-        }
-        return file;
-    }
-
-    public static Optional<String> loadTextFromFile() throws IOException {
-        JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        chooser.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return file.isDirectory() || file.toString().endsWith(TXT);
-            }
-
-            @Override
-            public String getDescription() {
-                return TEXT_DOCUMENTS;
-            }
-        });
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            return Optional.of(new String(Files.readAllBytes(chooser.getSelectedFile().toPath())));
-        }
-        return Optional.empty();
     }
 }

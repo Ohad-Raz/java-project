@@ -1,15 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08 admin upload flow (UploadArticlesPanel + ArticleParser), but separated
- * into a service for cleaner MVC/SOC in the final NASA IOTD project.
- *
- * NasaImageParser parses the RSS feed and downloads images into the runtime assets/ directory.
- * Repository persists NasaImage rows and tag links through stored procedures only.
- * AutoTagService detects which seeded tags match each image title/description.
- *
- * The GUI will later call importImages(...) from a background thread so the UI does not freeze.
- */
-
 package hr.algebra.service;
 
 import hr.algebra.dal.Repository;
@@ -26,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
+// Adapted from Exercise 07-08 upload flow; import orchestration separated from AdminPanel.
 public final class AdminImportService {
 
     private static final Logger LOGGER = Logger.getLogger(AdminImportService.class.getName());
@@ -43,9 +32,7 @@ public final class AdminImportService {
         this.autoTagService = autoTagService;
     }
 
-    /**
-     * Parses and imports NASA images. Optionally clears previous imported rows and runtime assets first.
-     */
+    // Parses and imports NASA images. Can clear existing imported data first.
     public AdminImportResult importImages(boolean clearExistingFirst) throws Exception {
         AdminImportResult result = new AdminImportResult();
 
@@ -53,10 +40,8 @@ public final class AdminImportService {
             clearImportedDataAndAssets();
         }
 
-        /*
-         * NasaImageParser downloads enclosure images before this service can skip duplicates by guid.
-         * Skipped duplicates may leave unused files in assets/ until the next clearExistingFirst import.
-         */
+        // Parser may download images before duplicate GUIDs are detected.
+        // Skipped duplicates can leave orphan files until the next clear-first import.
         List<NasaImage> parsedImages = NasaImageParser.parse();
         result.setParsedCount(parsedImages.size());
 
@@ -66,18 +51,18 @@ public final class AdminImportService {
         return result;
     }
 
-    /** Clears imported NasaImage rows, tag links, and runtime asset files (admin maintenance). */
+    // Clears imported rows and runtime asset files.
     public void clearImportedData() throws Exception {
         clearImportedDataAndAssets();
     }
 
-    /** Clears imported database rows and deletes files from the runtime assets directory. */
+    // Deletes imported DB rows, then files under runtime assets/.
     private void clearImportedDataAndAssets() throws Exception {
         repository.deleteImportedData();
         clearRuntimeAssetsDirectory();
     }
 
-    /** Inserts parsed images, skips duplicates by RSS guid, and links automatically matched tags. */
+    // Inserts parsed images; skips GUID duplicates; auto-links matching tags.
     private void importParsedImages(List<NasaImage> parsedImages, List<Tag> availableTags, AdminImportResult result)
             throws Exception {
         for (NasaImage image : parsedImages) {
@@ -100,7 +85,7 @@ public final class AdminImportService {
         }
     }
 
-    /** Skips duplicate images by RSS guid using selectNasaImageByGuid. */
+    // True when the image GUID already exists in the database.
     private boolean isDuplicateByGuid(NasaImage image) throws Exception {
         String guid = image.getGuid();
         if (guid == null || guid.isBlank()) {
@@ -109,7 +94,7 @@ public final class AdminImportService {
         return repository.selectNasaImageByGuid(guid).isPresent();
     }
 
-    /** Links automatically matched tags for one inserted image. */
+    // Links tags returned by AutoTagService for one inserted image.
     private void linkAutomaticallyMatchedTags(
             NasaImage image,
             List<Tag> availableTags,
@@ -122,6 +107,7 @@ public final class AdminImportService {
         }
     }
 
+    // Removes a downloaded file left behind when a duplicate GUID was skipped.
     private static void deleteOrphanDownloadedFile(NasaImage image) {
         String picturePath = image.getPicturePath();
         if (picturePath == null || picturePath.isBlank()) {
@@ -137,6 +123,7 @@ public final class AdminImportService {
         }
     }
 
+    // Deletes regular files inside runtime assets/ only.
     private static void clearRuntimeAssetsDirectory() throws IOException {
         Path assetsDir = Paths.get(RUNTIME_ASSETS_DIR).toAbsolutePath().normalize();
         if (!isSafeRuntimeAssetsDirectory(assetsDir)) {
@@ -153,6 +140,7 @@ public final class AdminImportService {
         }
     }
 
+    // Never treats src/main/resources/assets as the runtime cleanup target.
     private static boolean isSafeRuntimeAssetsDirectory(Path assetsDir) {
         String normalized = assetsDir.toString().replace('\\', '/').toLowerCase();
         return !normalized.contains("/src/main/resources/")

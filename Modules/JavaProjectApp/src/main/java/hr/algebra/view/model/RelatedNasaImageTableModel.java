@@ -1,17 +1,10 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08 ArticleTableModel. Compact columns for Related tab image selection.
- */
-
 package hr.algebra.view.model;
 
 import hr.algebra.model.NasaImage;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-/**
- * Compact NASA image table for the Related entities panel.
- */
+// Compact NasaImage table for Related and XML export tabs.
 public final class RelatedNasaImageTableModel extends AbstractTableModel {
 
     private static final String[] COLUMN_NAMES = {"Id", "Title", "Published date"};

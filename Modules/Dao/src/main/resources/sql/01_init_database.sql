@@ -1,10 +1,6 @@
 /*
- * Java Programming 1 — Final Project
- * Based on Exercise 07-08 sqlScript.sql (CREATE DATABASE, tables, stored procedures).
- * Minimal scope: AppUser, NasaImage, Tag, NasaImageTag
- *
- * Run once on SQL Server (SSMS / sqlcmd) with sufficient privileges.
- * Adjust database name if needed; default: NASA_IOTD
+ * Database initialization for NASA_IOTD (Exercise 07-08 sqlScript.sql style).
+ * Tables: AppUser, NasaImage, Tag, NasaImageTag
  */
 
 CREATE DATABASE NASA_IOTD
@@ -432,8 +428,8 @@ BEGIN
     SET NOCOUNT ON;
 
     /*
-     * Admin RSS reload (PDF): remove image-tag links and imported NasaImage rows only.
-     * Tags and AppUser are kept. Java must also clear assets/ image files.
+     * Admin RSS reload: remove image-tag links and imported NasaImage rows only.
+     * Tags and AppUser are kept. Java must also clear runtime assets/ files.
      */
     DELETE FROM NasaImageTag;
     DELETE FROM NasaImage;
@@ -464,10 +460,9 @@ BEGIN
     SET NOCOUNT ON;
 
     /*
-     * PDF "delete all data" for application domain tables.
-     * Does NOT delete AppUser rows (login safety — admin is never removed).
-     * Wipes images/links/tags, reseeds default tags and ensures default admin row exists.
-     * Java must clear assets/. AppUser rows are preserved; admin seed uses PasswordUtils hash/salt.
+     * Full application data reset for domain tables.
+     * AppUser rows are preserved. Reseeds default tags and ensures admin exists.
+     * Java should clear runtime assets/ when using this from the app.
      */
     DELETE FROM NasaImageTag;
     DELETE FROM NasaImage;
@@ -478,9 +473,7 @@ BEGIN
 END
 GO
 
-/* -------------------------------------------------------------------------- */
-/* Seed procedures (PDF: admin after init; default tags for demo)             */
-/* -------------------------------------------------------------------------- */
+/* Seed procedures: default admin and demo tags */
 
 CREATE PROCEDURE seedDefaultAdmin
 AS

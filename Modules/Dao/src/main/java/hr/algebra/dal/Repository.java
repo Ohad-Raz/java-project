@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08 Repository interface. Adapted for AppUser, NasaImage, Tag, and relationships.
- */
-
 package hr.algebra.dal;
 
 import hr.algebra.model.AppUser;
@@ -11,6 +6,7 @@ import hr.algebra.model.Tag;
 import java.util.List;
 import java.util.Optional;
 
+// Defines database operations used by services and Swing panels (Exercise 07-08 pattern).
 public interface Repository {
 
     void createUser(AppUser user) throws Exception;
@@ -33,7 +29,7 @@ public interface Repository {
 
     List<NasaImage> selectNasaImages() throws Exception;
 
-    /** Reuses the existing image selection operation for a lightweight presence check. */
+    // Lightweight presence check based on selectNasaImages().
     default boolean hasNasaImages() throws Exception {
         return !selectNasaImages().isEmpty();
     }

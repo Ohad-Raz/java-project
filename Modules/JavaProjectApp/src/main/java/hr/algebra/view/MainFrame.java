@@ -14,14 +14,12 @@ import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 
-/**
- * JFrame host with menu bar and tabbed panels (Exercise 07-08 ArticleManager pattern).
- */
+// Main host frame with role-based tabs (Exercise 07-08 ArticleManager pattern).
 public class MainFrame extends javax.swing.JFrame {
 
     private static final String TITLE = "NASA Image of the Day";
-    private static final int TARGET_NORMAL_WIDTH = 1500;
-    private static final int TARGET_NORMAL_HEIGHT = 975;
+    private static final int TARGET_NORMAL_WIDTH = 1550;
+    private static final int TARGET_NORMAL_HEIGHT = 1000;
     private static final int SCREEN_MARGIN = 80;
 
     private final AppUser loggedInUser;
@@ -35,12 +33,13 @@ public class MainFrame extends javax.swing.JFrame {
         setMinimumSize(normalSize);
         setSize(normalSize);
         setLocationRelativeTo(null);
-        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        //default full screen option
+//      setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         postInitMenuBar();
         configureTabsForRole(loggedInUser.getRole());
     }
 
-    /** Caps the preferred restored size to the current screen working area. */
+    // Caps restored window size to the current screen working area.
     private static Dimension computeNormalSize() {
         Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
         int width = Math.min(TARGET_NORMAL_WIDTH, Math.max(800, bounds.width - SCREEN_MARGIN));
@@ -48,7 +47,7 @@ public class MainFrame extends javax.swing.JFrame {
         return new Dimension(width, height);
     }
 
-    /** Restores a large centered window when leaving maximized state. */
+    // Restores a centered window when leaving maximized state.
     private void configureRestoredWindowBehavior() {
         addWindowStateListener(event -> {
             boolean wasMaximized = (event.getOldState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
@@ -60,12 +59,12 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
-    /** Fills the Look and Feel submenu at runtime (dynamic menu items). */
+    // Builds the dynamic Look and Feel submenu.
     private void postInitMenuBar() {
         LookAndFeelUtils.populateLookAndFeelMenu(menuLookAndFeel, this);
     }
 
-    /** Configures visible tabs according to ADMIN or USER role. */
+    // Shows tabs based on ADMIN or USER role.
     private void configureTabsForRole(Role role) {
         if (role == Role.ADMIN) {
             tpContent.addTab("Admin", new AdminPanel());
@@ -86,7 +85,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    /** Opens MainFrame on the EDT for the authenticated user. */
+    // Opens MainFrame on the EDT.
     public static void launch(AppUser user) {
         EventQueue.invokeLater(() -> {
             MainFrame frame = new MainFrame(user);

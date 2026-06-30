@@ -1,10 +1,3 @@
-/*
- * Project setup note:
- * Utility class for final project authentication.
- * Follows the professor utility-class style from Exercise 07-08, but implements password hashing
- * needed for the project login requirement.
- */
-
 package hr.algebra.utilities;
 
 import java.security.NoSuchAlgorithmException;
@@ -15,10 +8,7 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-/**
- * PBKDF2 password hashing for AppUser (hash + salt stored as Base64 in SQL).
- * Login flow: repository loads hash/salt via {@code selectUserByUsername}, then {@link #verifyPassword}.
- */
+// PBKDF2 hash/salt helpers for AppUser login and registration.
 public final class PasswordUtils {
 
     private static final String ALGORITHM = "PBKDF2WithHmacSHA256";
@@ -28,10 +18,7 @@ public final class PasswordUtils {
 
     private PasswordUtils() {
     }
-
-    /**
-     * Hashes a password with a newly generated random salt.
-     */
+    // Hashes a password with a newly generated random salt.
     public static PasswordHashResult hashPassword(char[] password) {
         if (password == null || password.length == 0) {
             throw new IllegalArgumentException("Password must not be empty.");
@@ -48,9 +35,7 @@ public final class PasswordUtils {
         }
     }
 
-    /**
-     * Verifies a password against stored Base64 hash and salt from the database.
-     */
+    // Verifies a plaintext password against stored Base64 hash and salt from the database.
     public static boolean verifyPassword(char[] password, String storedHashBase64, String storedSaltBase64) {
         if (password == null || password.length == 0) {
             return false;
@@ -63,7 +48,7 @@ public final class PasswordUtils {
             byte[] expectedHash = Base64.getDecoder().decode(storedHashBase64);
             byte[] salt = Base64.getDecoder().decode(storedSaltBase64);
             byte[] actualHash = deriveKey(password, salt);
-            return constantTimeEquals(expectedHash, actualHash);
+            return Arrays.equals(expectedHash, actualHash);
         } catch (IllegalArgumentException ex) {
             return false;
         } finally {
@@ -71,6 +56,7 @@ public final class PasswordUtils {
         }
     }
 
+    // Derives a fixed-length hash from password and salt using PBKDF2.
     private static byte[] deriveKey(char[] password, byte[] salt) {
         try {
             PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH_BITS);
@@ -81,29 +67,21 @@ public final class PasswordUtils {
         }
     }
 
+    // Generates a random salt for password hashing.
     private static byte[] generateSalt() {
         byte[] salt = new byte[SALT_BYTES];
         new SecureRandom().nextBytes(salt);
         return salt;
     }
 
-    private static boolean constantTimeEquals(byte[] left, byte[] right) {
-        if (left == null || right == null) {
-            return false;
-        }
-        return Arrays.equals(left, right);
-    }
-
+    // Clears the password char array after use.
     private static void clearPassword(char[] password) {
         if (password != null) {
             Arrays.fill(password, '\0');
         }
     }
 
-    /**
-     * One-time helper: run main to print Base64 hash/salt for SQL seed (e.g. admin password).
-     * Example: {@code java ... PasswordUtils admin}
-     */
+    // Prints Base64 hash/salt for SQL seed generation: java ... PasswordUtils <password> (for admin password)
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: PasswordUtils <password>");
@@ -114,9 +92,7 @@ public final class PasswordUtils {
         System.out.println("PasswordSalt=" + result.saltBase64());
     }
 
-    /**
-     * Hash and salt for {@code createUser} / {@code seedDefaultAdmin}.
-     */
+    // Container for the resulting Base64 hash and salt.
     public static final class PasswordHashResult {
 
         private final String hashBase64;

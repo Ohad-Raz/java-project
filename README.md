@@ -1,6 +1,6 @@
 # Java Programming 1 — Final Project
 
-NASA Image of the Day Manager is a multi-module Maven Swing application aligned with Exercise 07-08 / 09-10 / 11-12 patterns and the final-project PDF requirements.
+NASA Image of the Day Manager is a multi-module Maven Swing application aligned with Exercise 07-08 / 09-10 / 11-12 patterns.
 
 ## Module structure
 

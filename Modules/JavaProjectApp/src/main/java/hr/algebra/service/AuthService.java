@@ -1,9 +1,3 @@
-/*
- * Project setup note:
- * Authentication and USER registration for the final project login screen.
- * Uses Repository stored procedures and PasswordUtils only — no SQL in this layer.
- */
-
 package hr.algebra.service;
 
 import hr.algebra.dal.Repository;
@@ -14,6 +8,7 @@ import hr.algebra.utilities.PasswordUtils;
 import hr.algebra.utilities.PasswordUtils.PasswordHashResult;
 import java.util.Optional;
 
+// Login and registration through Repository + PasswordUtils (no SQL here).
 public final class AuthService {
 
     private final Repository repository;
@@ -26,7 +21,7 @@ public final class AuthService {
         this.repository = repository;
     }
 
-    /** Validates user credentials against stored hash and salt from the database. */
+    // Checks username/password against stored hash and salt.
     public Optional<AppUser> authenticate(String username, char[] password) throws Exception {
         if (username == null || username.isBlank()) {
             return Optional.empty();
@@ -43,7 +38,7 @@ public final class AuthService {
         return valid ? user : Optional.empty();
     }
 
-    /** Registers a new USER account with hashed password and salt. */
+    // Registers a new USER account with hashed password and salt.
     public void registerUser(String username, char[] password) throws Exception {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username is required.");

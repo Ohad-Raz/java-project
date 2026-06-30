@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08, HttpURLConnection factory pattern. Adapted for RSS/image download.
- */
-
 package hr.algebra.factory;
 
 import java.io.IOException;
@@ -10,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+// HttpURLConnection factory for RSS and image URLs (Exercise 07-08 pattern).
 public final class UrlConnectionFactory {
 
     private static final int TIMEOUT = 10000;

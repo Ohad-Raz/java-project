@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 11-12 TransferHandler drag-and-drop pattern. Adapted for Tag lists.
- */
-
 package hr.algebra.view.dnd;
 
 import hr.algebra.model.Tag;
@@ -19,9 +14,7 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
 
-/**
- * Wires Available Tags to Assigned Tags drag-and-drop (Exercise 11-12 pattern).
- */
+// Related tab drag-and-drop support (Exercise 11-12 TransferHandler pattern).
 public final class RelatedEntityDragDropSupport {
 
     private static final Logger LOGGER = Logger.getLogger(RelatedEntityDragDropSupport.class.getName());
@@ -29,7 +22,7 @@ public final class RelatedEntityDragDropSupport {
     private RelatedEntityDragDropSupport() {
     }
 
-    /** Enables drag from source and drop on destination; invokes callback when a tag is dropped. */
+    // Enables drag from Available Tags to Assigned Tags and calls back on drop.
     public static void wireTagLists(
             JList<Tag> sourceList,
             JList<Tag> destinationList,

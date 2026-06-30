@@ -24,9 +24,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 
-/**
- * Related entities tab: link NASA images to tags via drag-and-drop (Exercise 11-12 pattern).
- */
+// Related tab: image-tag links via drag-and-drop (Exercise 11-12 pattern).
 public class RelatedEntitiesPanel extends javax.swing.JPanel {
 
     private static final String TITLE = "Related";
@@ -238,7 +236,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
     private javax.swing.JTable tbImages;
     // End of variables declaration//GEN-END:variables
 
-    /** Initializes repository, table, list models, and drag-and-drop wiring. */
+    // Initializes repository, table, list models, and drag-and-drop wiring.
     private void init() throws Exception {
         initRepository();
         initListModels();
@@ -247,12 +245,12 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         refreshAll();
     }
 
-    /** Obtains the shared repository from the factory. */
+    // Obtains the shared repository from the factory.
     private void initRepository() throws Exception {
         repository = RepositoryFactory.getRepository();
     }
 
-    /** Creates empty typed list models for available and assigned tags. */
+    // Creates empty typed list models for available and assigned tags.
     private void initListModels() {
         availableTagsModel = new DefaultListModel<>();
         assignedTagsModel = new DefaultListModel<>();
@@ -260,7 +258,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         lstAssignedTags.setModel(assignedTagsModel);
     }
 
-    /** Binds the NASA image table and selection listener. */
+    // Binds the NASA image table and selection listener.
     private void initTable() throws Exception {
         tbImages.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tbImages.setAutoCreateRowSorter(true);
@@ -271,12 +269,12 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         tbImages.getSelectionModel().addListSelectionListener(this::onImageSelectionChanged);
     }
 
-    /** Applies compact column alignment and widths for the image table. */
+    // Applies compact column alignment and widths for the image table.
     private void configureTableAppearance() {
         TableRenderUtils.applyRelatedNasaImageTableStyle(tbImages);
     }
 
-    /** Configures drag from Available Tags to Assigned Tags. */
+    // Configures drag from Available Tags to Assigned Tags.
     private void configureDragAndDrop() {
         RelatedEntityDragDropSupport.wireTagLists(
                 lstAvailableTags,
@@ -286,7 +284,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         );
     }
 
-    /** Reloads images, all tags, and tag lists for the current selection. */
+    // Reloads images, all tags, and tag lists for the current selection.
     private void refreshAll() {
         try {
             allTags = repository.selectTags();
@@ -298,7 +296,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Loads tag filter options from the repository. */
+    // Loads tag filter options from the repository.
     private void loadTagFilter() throws Exception {
         Tag current = (Tag) cbRelatedTagFilter.getSelectedItem();
         relatedTagFilterModel = new DefaultComboBoxModel<>();
@@ -320,7 +318,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         cbRelatedTagFilter.setSelectedItem(ALL_TAGS_FILTER);
     }
 
-    /** Applies the selected tag filter to the NASA image table. */
+    // Applies the selected tag filter to the NASA image table.
     private void applyTagFilter() {
         try {
             refreshImageTable();
@@ -330,7 +328,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Reloads image rows according to the current tag filter. */
+    // Reloads image rows according to the current tag filter.
     private void refreshImageTable() throws Exception {
         Tag selectedFilter = (Tag) cbRelatedTagFilter.getSelectedItem();
         List<NasaImage> images;
@@ -354,7 +352,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         reselectImageRow(selectedImageId);
     }
 
-    /** Re-selects the image row after a table refresh when possible. */
+    // Re-selects the image row after a table refresh when possible.
     private void reselectImageRow(int selectedImageId) {
         if (selectedImageId < 0) {
             selectedImage = null;
@@ -375,7 +373,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         clearTagLists();
     }
 
-    /** Loads the selected NASA image and its available/assigned tag lists. */
+    // Loads the selected NASA image and its available/assigned tag lists.
     private void showSelectedImage() {
         int selectedRow = tbImages.getSelectedRow();
         if (selectedRow < 0) {
@@ -395,7 +393,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Keeps selection in sync when the user navigates the image table with the keyboard. */
+    // Keeps selection in sync when the user navigates the image table with the keyboard.
     private void onImageSelectionChanged(ListSelectionEvent event) {
         if (event.getValueIsAdjusting()) {
             return;
@@ -403,7 +401,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         showSelectedImage();
     }
 
-    /** Reloads assigned tags from the database and recomputes available tags. */
+    // Reloads assigned tags from the database and recomputes available tags.
     private void reloadTagListsForSelectedImage() throws Exception {
         if (selectedImage == null) {
             clearTagLists();
@@ -429,13 +427,13 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Clears both tag lists when no image is selected. */
+    // Clears both tag lists when no image is selected.
     private void clearTagLists() {
         availableTagsModel.clear();
         assignedTagsModel.clear();
     }
 
-    /** Updates the label that shows the currently selected image title. */
+    // Updates the label that shows the currently selected image title.
     private void updateSelectedImageLabel() {
         if (selectedImage == null) {
             lblSelectedImage.setText("Selected image: (none)");
@@ -444,7 +442,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Returns whether a tag may be dropped onto Assigned Tags. */
+    // Returns whether a tag may be dropped onto Assigned Tags.
     private boolean canAcceptTagDrop() {
         if (selectedImage == null) {
             MessageUtils.showInformationMessage(TITLE, "Please select a NASA image first.");
@@ -453,7 +451,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         return true;
     }
 
-    /** Links a dropped tag to the selected NASA image and refreshes the lists. */
+    // Links a dropped tag to the selected NASA image and refreshes the lists.
     private void linkDroppedTag(Tag tag) {
         if (selectedImage == null) {
             return;
@@ -467,7 +465,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Unlinks the selected assigned tag from the current NASA image. */
+    // Unlinks the selected assigned tag from the current NASA image.
     private void removeSelectedAssignedTag() {
         if (selectedImage == null) {
             MessageUtils.showInformationMessage(TITLE, "Please select a NASA image first.");

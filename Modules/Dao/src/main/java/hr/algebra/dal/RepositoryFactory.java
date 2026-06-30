@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08, RepositoryFactory properties-driven wiring pattern.
- */
-
 package hr.algebra.dal;
 
 import java.io.InputStream;
@@ -10,6 +5,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+// Loads SqlRepository from repository.properties (Exercise 07-08 pattern).
 public final class RepositoryFactory {
 
     private static final Properties PROPERTIES = new Properties();

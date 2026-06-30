@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Shared JTable header/cell alignment and column width helpers (post-init, not in .form).
- */
-
 package hr.algebra.view.util;
 
 import javax.swing.JLabel;
@@ -12,12 +7,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+// Shared JTable alignment and column-width helpers applied after initComponents().
 public final class TableRenderUtils {
 
     private TableRenderUtils() {
     }
 
-    /** Centers all headers and cells; keeps Id narrow and Name wide. */
+    // Centers headers and cells; keeps Id narrow and Name wide.
     public static void applyTagTableStyle(JTable table) {
         centerTableHeaders(table);
 
@@ -36,7 +32,7 @@ public final class TableRenderUtils {
         columnModel.getColumn(1).setPreferredWidth(400);
     }
 
-    /** Centers headers; Id/date centered; Title left-aligned for Related tab image table. */
+    // Related tab image table: compact columns with centered Id/date.
     public static void applyRelatedNasaImageTableStyle(JTable table) {
         centerTableHeaders(table);
 
@@ -52,7 +48,7 @@ public final class TableRenderUtils {
         setColumn(columnModel.getColumn(2), centerRenderer, 160, 220);
     }
 
-    /** Centers headers; Id/date centered; text columns left-aligned with readable widths. */
+    // Images tab table: wider text columns with readable widths.
     public static void applyNasaImageTableStyle(JTable table) {
         centerTableHeaders(table);
 

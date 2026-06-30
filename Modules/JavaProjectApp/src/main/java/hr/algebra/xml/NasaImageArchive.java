@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 11-12 JAXB root-wrapper pattern for XML export.
- */
-
 package hr.algebra.xml;
 
 import java.util.ArrayList;
@@ -12,9 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * JAXB root object that wraps exported NASA image records.
- */
+// JAXB root wrapper for exported NASA images (Exercise 11-12 pattern).
 @XmlRootElement(name = "NasaImageArchive")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NasaImageArchive {

@@ -1,12 +1,8 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08, MessageUtils utility pattern. Adapted for the final Java Programming 1 project.
- */
-
 package hr.algebra.utilities;
 
 import javax.swing.JOptionPane;
 
+// JOptionPane helpers (Exercise 07-08 MessageUtils pattern).
 public final class MessageUtils {
 
     private MessageUtils() {

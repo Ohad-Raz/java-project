@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 11-12 AuthorTransferable. Adapted for Tag drag-and-drop.
- */
-
 package hr.algebra.view.dnd;
 
 import hr.algebra.model.Tag;
@@ -11,9 +6,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
-/**
- * Transferable wrapper for {@link Tag} (Exercise 11-12 AuthorTransferable pattern).
- */
+// Transferable wrapper for dragged Tag objects (Exercise 11-12 AuthorTransferable pattern).
 public final class RelatedEntityTransferable implements Transferable {
 
     public static final DataFlavor TAG_FLAVOR = new DataFlavor(Tag.class, "Tag");
@@ -38,9 +31,9 @@ public final class RelatedEntityTransferable implements Transferable {
 
     @Override
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-        if (isDataFlavorSupported(flavor)) {
-            return tag;
+        if (!isDataFlavorSupported(flavor)) {
+            throw new UnsupportedFlavorException(flavor);
         }
-        throw new UnsupportedFlavorException(flavor);
+        return tag;
     }
 }

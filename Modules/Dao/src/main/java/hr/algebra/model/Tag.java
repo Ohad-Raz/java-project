@@ -1,12 +1,8 @@
-/*
- * Project setup note:
- * Based on Exercise 11-12 Comparable/TreeSet pattern (Author). Adapted for Tag entity.
- */
-
 package hr.algebra.model;
 
 import java.util.Objects;
 
+// Connected entity; Comparable supports sorted assigned-tag lists (Exercise 11-12 pattern).
 public final class Tag implements Comparable<Tag> {
 
     private int id;

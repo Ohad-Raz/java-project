@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08 Article model. Adapted for NASA IOTD RSS fields and Guid deduplication.
- */
-
 package hr.algebra.model;
 
 import java.time.LocalDateTime;
@@ -11,17 +6,16 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+// Main RSS entity; adapted from Exercise 07-08 Article with GUID support.
 public final class NasaImage implements Comparable<NasaImage> {
 
-    /** Matches RSS {@code pubDate} storage (RFC 1123), e.g. Tue, 19 May 2026 17:08 GMT */
+    // RSS pubDate format (RFC 1123), e.g. Tue, 19 May 2026 17:08 GMT
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.RFC_1123_DATE_TIME;
 
-    /** Formats {@link LocalDateTime} as RFC 1123 UTC (formatter requires offset). */
     public static String formatPublishedDate(LocalDateTime publishedDate) {
         return ZonedDateTime.of(publishedDate, ZoneOffset.UTC).format(DATE_FORMATTER);
     }
 
-    /** Parses RFC 1123 text into {@link LocalDateTime} (UTC). */
     public static LocalDateTime parsePublishedDate(String value) {
         return ZonedDateTime.parse(value, DATE_FORMATTER).toLocalDateTime();
     }
@@ -33,7 +27,7 @@ public final class NasaImage implements Comparable<NasaImage> {
     private String picturePath;
     private LocalDateTime publishedDate;
     private String guid;
-//default constructor for xml
+    //default constructor for xml Required by JAXB.
     public NasaImage() {
     }
 

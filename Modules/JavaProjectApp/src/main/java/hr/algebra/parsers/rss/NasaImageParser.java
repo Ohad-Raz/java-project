@@ -1,7 +1,3 @@
-/*
- * Based on Exercise 07-08 ArticleParser, adapted for NASA Image of the Day RSS.
- */
-
 package hr.algebra.parsers.rss;
 
 import hr.algebra.factory.ParserFactory;
@@ -29,6 +25,7 @@ import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
+// Adapted from Exercise 07-08 ArticleParser for NASA RSS items.
 public final class NasaImageParser {
 
     private static final String RSS_URL = "https://www.nasa.gov/feeds/iotd-feed/";
@@ -59,6 +56,7 @@ public final class NasaImageParser {
                             image = new NasaImage();
                             images.add(image);
                         }
+                        // enclosure url is read from the start element, not character data
                         if (tagType.isPresent()
                                 && tagType.get().equals(TagType.ENCLOSURE)
                                 && image != null
@@ -113,6 +111,7 @@ public final class NasaImageParser {
         return images;
     }
 
+    // Downloads one enclosure image; logs and continues on failure.
     private static void handlePicture(NasaImage image, String pictureUrl) {
         try {
             String pathPart = pictureUrl;

@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 11-12, JAXB XML helper pattern. Adapted for reusable XML export/import support.
- */
-
 package hr.algebra.utilities;
 
 import java.io.File;
@@ -11,10 +6,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-/**
- * Generic JAXB helper for XML export/import.
- * Final project XML root types (e.g. archive wrapper) will be added in a later step.
- */
+// JAXB marshal and unmarshal helpers (Exercise 11-12 JAXBUtils pattern).
 public final class JAXBUtils {
 
     private JAXBUtils() {

@@ -1,10 +1,6 @@
-/*
- * Project setup note:
- * Final project role enum. Values match AppUser.Role CHECK in SQL (ADMIN, USER).
- */
-
 package hr.algebra.model;
 
+// ADMIN/USER values match the AppUser.Role CHECK constraint in SQL.
 public enum Role {
     ADMIN,
     USER;

@@ -1,22 +1,15 @@
-/*
- * Project setup note:
- * Based on Exercise 09-10, application startup orchestration (Look and Feel + EDT). MVC: no SQL in controller.
- */
-
 package hr.algebra.controller;
 
 import hr.algebra.view.LoginFrame;
 import hr.algebra.view.util.LookAndFeelUtils;
 
-/**
- * Application entry orchestration (MVC: controller starts view, no SQL/GUI mixing).
- */
+// Application startup: LAF first, then login on the EDT (Exercise 09-10 pattern).
 public final class AppController {
 
     private AppController() {
     }
 
-    /** Installs look-and-feel and opens the login screen before MainFrame. */
+    // Installs look-and-feel and opens the login screen.
     public static void start() {
         LookAndFeelUtils.installDefaultLookAndFeel();
         LoginFrame.launch();

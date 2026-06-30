@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 11-12 JAXB DTO pattern for XML payloads.
- */
-
 package hr.algebra.xml;
 
 import java.util.ArrayList;
@@ -12,9 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
-/**
- * JAXB export DTO for a NASA image with assigned tag names.
- */
+// JAXB export DTO for one NASA image and its assigned tag names (Exercise 11-12 pattern).
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NasaImageExportDto {
 

@@ -1,10 +1,6 @@
-/*
- * Project setup note:
- * Summary report for AdminImportService NASA RSS import runs.
- */
-
 package hr.algebra.service;
 
+// Import counters returned to AdminPanel after an RSS import run.
 public final class AdminImportResult {
 
     private int parsedCount;

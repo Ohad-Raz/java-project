@@ -1,23 +1,3 @@
-/*
- * Project setup note:
- * Auto-tag matching helper for the final Java Programming 1 project.
- *
- * This class supports the NASA Image of the Day import workflow.
- * It does not parse RSS, does not access the database, and does not update the GUI.
- *
- * The service receives a NasaImage and a list of prepared Tag objects loaded from the repository.
- * It combines the image title and description, then checks each tag name using a case-insensitive
- * whole-word regular expression. Pattern.quote is used so tag names such as "Space Station"
- * are treated as literal text.
- *
- * Matching tags are returned to the caller. Later, the Admin import workflow will save the
- * relationship through Repository.linkNasaImageTag(imageId, tagId).
- *
- * This keeps responsibilities separated according to the professor architecture:
- * parser = RSS/image loading, repository = database procedures, service = matching logic,
- * GUI/controller = workflow orchestration.
- */
-
 package hr.algebra.service;
 
 import hr.algebra.model.NasaImage;
@@ -28,6 +8,7 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+// Matches existing tag names against image title/description during import.
 public final class AutoTagService {
 
     private static final Function<Tag, Predicate<String>> TAG_MATCH_PREDICATE =
@@ -36,6 +17,7 @@ public final class AutoTagService {
     public AutoTagService() {
     }
 
+    // Returns existing tags whose names appear in the image title or description.
     public List<Tag> findMatchingTags(NasaImage image, List<Tag> availableTags) {
         String haystack = buildHaystack(image);
         if (haystack.isBlank() || availableTags == null || availableTags.isEmpty()) {
@@ -47,6 +29,7 @@ public final class AutoTagService {
                 .collect(Collectors.toList());
     }
 
+    // Combines title and description into one searchable string.
     private static String buildHaystack(NasaImage image) {
         if (image == null) {
             return "";
@@ -54,6 +37,7 @@ public final class AutoTagService {
         return (nullToEmpty(image.getTitle()) + " " + nullToEmpty(image.getDescription())).trim();
     }
 
+    // Case-insensitive whole-word match; Pattern.quote keeps names like "Space Station" literal.
     private static boolean matchesTagName(String haystack, Tag tag) {
         if (tag == null) {
             return false;

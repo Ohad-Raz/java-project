@@ -14,9 +14,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Final-project login screen (GUI Builder form).
- */
+// Login and registration screen.
 public class LoginFrame extends javax.swing.JFrame {
 
     private static final String TITLE = "NASA IOTD - Login";
@@ -120,7 +118,7 @@ public class LoginFrame extends javax.swing.JFrame {
         performRegistration();
     }//GEN-LAST:event_btnRegisterActionPerformed
 
-    /** Validates credentials and opens MainFrame for an authenticated user. */
+    // Validates credentials and opens MainFrame for the authenticated user.
     private void performLogin() {
         lblMessage.setText(" ");
         char[] password = pfPassword.getPassword();
@@ -139,7 +137,7 @@ public class LoginFrame extends javax.swing.JFrame {
         }
     }
 
-    /** Registers a new USER account and shows a confirmation message. */
+    // Registers a new USER account and shows a confirmation message.
     private void performRegistration() {
         lblMessage.setText(" ");
         char[] password = pfPassword.getPassword();
@@ -157,21 +155,21 @@ public class LoginFrame extends javax.swing.JFrame {
         }
     }
 
-    /** Opens MainFrame for authenticated user and closes the login window. */
+    // Stores session user and opens MainFrame.
     private void openMainFrameForUser(AppUser user) {
         AppSession.setCurrentUser(user);
         dispose();
-        MainFrame.launch(user);
+        MainFrame.launch(user);//passing user to MainFrame!
     }
 
-    /** Clears the password field after verification or registration attempt. */
+    // Clears password chars from memory after login or registration.
     private void clearPasswordField() {
         char[] password = pfPassword.getPassword();
         Arrays.fill(password, '\0');
         pfPassword.setText("");
     }
 
-    /** Opens the login frame on the EDT. */
+    // Opens the login frame on the EDT.
     public static void launch() {
         EventQueue.invokeLater(() -> {
             LoginFrame frame = new LoginFrame();

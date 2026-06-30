@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 09-10, Look and Feel menu pattern. FlatLaf default for final project GUI module.
- */
-
 package hr.algebra.view.util;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -16,9 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/**
- * Look and Feel menu setup (Exercise 09-10 Notepad pattern + FlatLaf default).
- */
+// Look and Feel menu helpers (Exercise 09-10 pattern; FlatLaf default).
 public final class LookAndFeelUtils {
 
     private static final Logger LOGGER = Logger.getLogger(LookAndFeelUtils.class.getName());

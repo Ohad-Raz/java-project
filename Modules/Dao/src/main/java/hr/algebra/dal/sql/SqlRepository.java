@@ -1,8 +1,3 @@
-/*
- * Project setup note:
- * Based on Exercise 07-08 SqlRepository. All persistence via stored procedures and CallableStatement.
- */
-
 package hr.algebra.dal.sql;
 
 import hr.algebra.dal.Repository;
@@ -20,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 
+// Calls SQL Server stored procedures through CallableStatement (Exercise 07-08 pattern).
 public class SqlRepository implements Repository {
 
     private static final String ID_APP_USER = "IDAppUser";

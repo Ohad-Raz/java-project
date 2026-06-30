@@ -22,9 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 
-/**
- * XML export tab: exports NASA images and their assigned tags with JAXB.
- */
+// XML export tab for NASA images and assigned tags (Exercise 11-12 JAXB pattern).
 public class XmlExportPanel extends javax.swing.JPanel {
 
     private static final String TITLE = "XML export";
@@ -191,7 +189,7 @@ public class XmlExportPanel extends javax.swing.JPanel {
     private javax.swing.JTable tbImages;
     // End of variables declaration//GEN-END:variables
 
-    /** Initializes repository and image table once when the panel becomes visible. */
+    // Initializes repository and image table once when the panel becomes visible.
     private void init() {
         try {
             initRepository();
@@ -203,12 +201,12 @@ public class XmlExportPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Obtains repository implementation from the factory. */
+    // Obtains repository implementation from the factory.
     private void initRepository() throws Exception {
         repository = RepositoryFactory.getRepository();
     }
 
-    /** Binds the compact image table model and related table styling. */
+    // Binds the compact image table model and related table styling.
     private void initTable() throws Exception {
         tbImages.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tbImages.setAutoCreateRowSorter(true);
@@ -218,7 +216,7 @@ public class XmlExportPanel extends javax.swing.JPanel {
         TableRenderUtils.applyRelatedNasaImageTableStyle(tbImages);
     }
 
-    /** Reloads NASA images for export and clears selection state. */
+    // Reloads NASA images for export and clears selection state.
     private void refreshImages() {
         try {
             imageTableModel.setImages(repository.selectNasaImages());
@@ -231,7 +229,7 @@ public class XmlExportPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Tracks the image currently selected in the export table. */
+    // Tracks the image currently selected in the export table.
     private void updateSelectedImage() {
         int selectedRow = tbImages.getSelectedRow();
         if (selectedRow < 0) {
@@ -244,7 +242,7 @@ public class XmlExportPanel extends javax.swing.JPanel {
         lblSelectedImage.setText("Selected image: " + selectedImage.getTitle());
     }
 
-    /** Exports all available images and their tags to a JAXB XML file. */
+    // Exports all available images and their tags to a JAXB XML file.
     private void exportAllImages() {
         try {
             if (!repository.hasNasaImages()) {
@@ -260,7 +258,7 @@ public class XmlExportPanel extends javax.swing.JPanel {
         }
     }
 
-    /** Exports the currently selected image and its tags to JAXB XML. */
+    // Exports the currently selected image and its tags to JAXB XML.
     private void exportSelectedImage() {
         if (selectedImage == null) {
             MessageUtils.showInformationMessage(TITLE, "Please select an image first.");
@@ -269,7 +267,7 @@ public class XmlExportPanel extends javax.swing.JPanel {
         startExportWorker(List.of(selectedImage));
     }
 
-    /** Prompts for destination file and runs XML export in background. */
+    // Prompts for destination file and runs XML export in background.
     private void startExportWorker(List<NasaImage> imagesToExport) {
         File targetFile = chooseOutputFile();
         if (targetFile == null) {
@@ -303,7 +301,7 @@ public class XmlExportPanel extends javax.swing.JPanel {
         worker.execute();
     }
 
-    /** Builds JAXB archive DTOs by loading assigned tags for each exported image. */
+    // Builds JAXB archive DTOs by loading assigned tags for each exported image.
     private NasaImageArchive buildArchive(List<NasaImage> images) throws Exception {
         List<NasaImageExportDto> exportDtos = new ArrayList<>();
         for (NasaImage image : images) {
@@ -323,7 +321,7 @@ public class XmlExportPanel extends javax.swing.JPanel {
         return new NasaImageArchive(exportDtos);
     }
 
-    /** Opens file chooser for XML save path and applies default archive filename. */
+    // Opens file chooser for XML save path and applies default archive filename.
     private File chooseOutputFile() {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Choose XML export file");
@@ -339,12 +337,12 @@ public class XmlExportPanel extends javax.swing.JPanel {
         return selected;
     }
 
-    /** Appends one line to the export status area. */
+    // Appends one line to the export status area.
     private void appendStatus(String message) {
         taStatus.append(System.lineSeparator() + message);
     }
 
-    /** Enables or disables export-related controls while background work runs. */
+    // Enables or disables export-related controls while background work runs.
     private void setButtonsEnabled(boolean enabled) {
         btnExportAll.setEnabled(enabled);
         btnExportSelected.setEnabled(enabled);
