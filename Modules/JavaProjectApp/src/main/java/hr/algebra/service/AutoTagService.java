@@ -11,25 +11,26 @@ import java.util.stream.Collectors;
 // Matches existing tag names against image title/description during import.
 public final class AutoTagService {
 
-    private static final Function<Tag, Predicate<String>> TAG_MATCH_PREDICATE =
-            tag -> haystack -> matchesTagName(haystack, tag);
-
     public AutoTagService() {
     }
 
     // Returns existing tags whose names appear in the image title or description.
     public List<Tag> findMatchingTags(NasaImage image, List<Tag> availableTags) {
-        String haystack = buildHaystack(image);
+        // Extracts searchable text from the image.
+        Function<NasaImage, String> imageTextExtractor = nasaImage -> buildHaystack(nasaImage);
+        String haystack = imageTextExtractor.apply(image);
         if (haystack.isBlank() || availableTags == null || availableTags.isEmpty()) {
             return List.of();
         }
 
+        Predicate<Tag> tagMatchesImageText = tag -> matchesTagName(haystack, tag);
+
         return availableTags.stream()
-                .filter(tag -> TAG_MATCH_PREDICATE.apply(tag).test(haystack))
+                .filter(tagMatchesImageText)//calls tagMatchesImageText for each tag:)
                 .collect(Collectors.toList());
     }
 
-    // Combines title and description into one searchable string.
+    // Combines title and description into one searchable string  
     private static String buildHaystack(NasaImage image) {
         if (image == null) {
             return "";
@@ -51,8 +52,8 @@ public final class AutoTagService {
                 Pattern.CASE_INSENSITIVE);
         return pattern.matcher(haystack).find();
     }
-
+//helper method to handle null or blank title or description
     private static String nullToEmpty(String value) {
-        return value == null ? "" : value;
+        return value == null || value.isBlank() ? "" : value;
     }
 }

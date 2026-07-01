@@ -538,7 +538,7 @@ public class EntityManagementPanel extends javax.swing.JPanel {
         TableRenderUtils.applyNasaImageTableStyle(tbNasaImages);
     }
 
-    // Reloads table rows from the repository (e.g. after Admin import).
+    // Reloads table rows from the repository ( after Admin import).
     private void refreshTable() throws Exception {
         int maxRows = getMaxRowsLimit();
         Tag selectedFilter = (Tag) cbTagFilter.getSelectedItem();

@@ -332,7 +332,7 @@ public class RelatedEntitiesPanel extends javax.swing.JPanel {
     private void refreshImageTable() throws Exception {
         Tag selectedFilter = (Tag) cbRelatedTagFilter.getSelectedItem();
         List<NasaImage> images;
-        if (selectedFilter == null || selectedFilter.getId() == ALL_TAGS_FILTER.getId()) {
+        if (selectedFilter == null || selectedFilter.getId() == ALL_TAGS_FILTER.getId()) {//if id is 0, all images are selected
             images = repository.selectNasaImages();
         } else {
             images = repository.selectNasaImagesForTag(selectedFilter.getId());

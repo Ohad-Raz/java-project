@@ -18,7 +18,7 @@ import java.awt.Rectangle;
 public class MainFrame extends javax.swing.JFrame {
 
     private static final String TITLE = "NASA Image of the Day";
-    private static final int TARGET_NORMAL_WIDTH = 1550;
+    private static final int TARGET_NORMAL_WIDTH = 1600;
     private static final int TARGET_NORMAL_HEIGHT = 1000;
     private static final int SCREEN_MARGIN = 80;
 
@@ -177,6 +177,8 @@ public class MainFrame extends javax.swing.JFrame {
                 - Drag and Drop image-tag linking
                 - JAXB XML export
                 """.formatted(loggedInUser.getUsername(), loggedInUser.getRole())
+        // %s = placeholder filled by .formatted(username, role)
+        //""" = multi-line string without writing \n
         );
     }//GEN-LAST:event_miAboutActionPerformed
 
